@@ -15,13 +15,12 @@ export default function Sidebar(data: any) {
 
     const router = useRouter();
 
-    const [isActive, setActive] = useState(false);
+    const [isActive, setActive] = useState(Boolean);
     const [menuId, SetmenuId] = useState();
     const handleClick = (event: any) => {
-        !isActive === true ? setActive(!isActive) : setActive(isActive)
+        isActive === true ? setActive(!isActive) : setActive(isActive)
+        console.log(isActive)
         SetmenuId(event.currentTarget.id)
-        localStorage.setItem("menuid", event.currentTarget.id);
-
     };
 
 
@@ -176,12 +175,12 @@ export default function Sidebar(data: any) {
                                 <Fragment key={item.id}>
                                     <li>
                                         <Link role="button" href={item.to === "" ? ("") : (item.to)}>
-                                            <a id={item.submenuId} onClick={item.to === "" ? (handleClick) : ("")} className={`side-menu ${menuId === item.submenuId ? (isActive ? "side-menu side-menu--active" : null) : (null)}  `}>
+                                            <a id={item.submenuId} onClick={item.to === "" ? (handleClick) : ("")} className={`side-menu ${menuId === item.submenuId ? (!isActive ? "side-menu side-menu--active" : null) : (null)}  `}>
                                                 <div className="side-menu__icon">{item.icon}</div>
                                                 <div className="side-menu__title">{item.name}{item.submenu === false ? ("") : (<div className="side-menu__sub-icon"><FontAwesomeIcon icon={faAngleDown} className="h-4" /></div>)}</div>
                                             </a>
                                         </Link>
-                                        <ul className={`${menuId === item.submenuId ? (isActive ? "side-menu__sub-open" : null) : (null)}`}>
+                                        <ul className={`${menuId === item.submenuId ? (!isActive ? "side-menu__sub-open" : null) : (null)}`}>
                                             {
                                                 (item.submenu || []).map((subitem: any) => {
                                                     return (

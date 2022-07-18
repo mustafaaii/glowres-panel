@@ -17124,11 +17124,7 @@ html body {
   color: rgb(var(--color-slate-400) / var(--tw-text-opacity));
 }
 
-@media (max-width: calc(1024px - 1px)) {
-  & :root {
-    --litepicker-day-width: 35px;
-  }
-}
+
 
 .dark .litepicker {
   --tw-bg-opacity: 1;
@@ -20630,3 +20626,9 @@ html body {
     color: rgb(var(--color-success) / var(--tw-text-opacity));
   }
 }
+
+
+
+
+
+

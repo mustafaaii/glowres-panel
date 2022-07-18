@@ -129,8 +129,6 @@ export default function Sidebar(data: any) {
     ])
 
 
-
-
     return (
         <>
             <nav className="side-nav">

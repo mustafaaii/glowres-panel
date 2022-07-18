@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import { useState } from "react";
-import Inducator from "../element/indicator";
 import Table from "../element/table";
+import Header from "../module/header/header";
+import Sidebar from "../module/sidebar/sidebar";
 const Dash: NextPage = () => {
 
     const indicator = {
@@ -41,7 +41,6 @@ const Dash: NextPage = () => {
         ],
         total: 4,
     }
-
     const TableHead = {
         data: [
             {
@@ -82,7 +81,6 @@ const Dash: NextPage = () => {
         ],
         total: 6
     }
-
     const TableBody = {
         data: [
             {
@@ -116,8 +114,6 @@ const Dash: NextPage = () => {
         ],
         total: 4,
     }
-
-
     const TableData = {
         data: [
             {
@@ -270,13 +266,20 @@ const Dash: NextPage = () => {
         ],
         total: 2,
     }
-
-
+    //<Inducator InducatorData={indicator.data} InducatorTotal={indicator.total} />
+    //<Table HeadData={TableHead.data} BodyData={TableBody.data} total={TableHead.total} demo={TableData.data} />
     return (
         <>
 
-            <Inducator InducatorData={indicator.data} InducatorTotal={indicator.total} />
-            <Table HeadData={TableHead.data} BodyData={TableBody.data} total={TableHead.total} demo={TableData.data} />
+            <div className="grid grid-cols-12 gap-6 mt-5">
+                <div className="intro-y col-span-12 lg:col-span-8">
+
+                </div>
+                <div className="intro-y col-span-12 lg:col-span-4">
+
+                </div>
+            </div>
+
         </>
     )
 }

@@ -4,22 +4,28 @@
 /* Element Version : 0.1
 */
 
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 
+
 export default function Sidebar(data: any) {
 
-    const router = useRouter()
+    const router = useRouter();
+
+    const [isActive, setActive] = useState(false);
+    const [menuId, SetmenuId] = useState();
+    const handleClick = (event: any) => {
+        !isActive === true ? setActive(!isActive) : setActive(isActive)
+        SetmenuId(event.currentTarget.id)
+        localStorage.setItem("menuid", event.currentTarget.id);
+
+    };
 
 
-    const [menu, setmenu] = useState(Number)
-    const [menuId, setmenuId] = useState(Number)
-    const menuactive = () => {
-        return (
-            menu === 1 ? setmenu(0) : setmenu(1)
-        )
-    }
+
 
 
     const [SidebarMenu] = useState([
@@ -29,14 +35,15 @@ export default function Sidebar(data: any) {
             to: "/",
             func: "",
             icon: "",
+            submenuId: "sub-02022",
             submenu: false,
         },
         {
             id: "12022",
             name: "Günlük Akış",
             to: "",
-            func: () => { menuactive() },
             icon: "",
+            submenuId: "sub-12022",
             submenu: [
                 {
                     id: "12",
@@ -54,11 +61,30 @@ export default function Sidebar(data: any) {
         },
         {
             id: "22022",
-            name: "Post",
-            to: "/posts",
-            func: "",
+            name: "Güncel Stoklar",
+            to: "",
             icon: "",
-            submenu: false,
+            submenuId: "sub-22022",
+            submenu: [
+                {
+                    id: "220221",
+                    name: "Peron",
+                    to: "/peron",
+                    icon: "",
+                },
+                {
+                    id: "220222",
+                    name: "Peron Sayım",
+                    to: "/peron-sayim",
+                    icon: "",
+                },
+                {
+                    id: "220223",
+                    name: "Envanter",
+                    to: "/envanter",
+                    icon: "",
+                }
+            ],
         },
         {
             id: "32022",
@@ -66,6 +92,7 @@ export default function Sidebar(data: any) {
             to: "/seo",
             func: "",
             icon: "",
+            submenuId: "sub-32022",
             submenu: false,
         },
         {
@@ -74,6 +101,7 @@ export default function Sidebar(data: any) {
             to: "/file-manager",
             func: "",
             icon: "",
+            submenuId: "sub-42022",
             submenu: false,
         },
         {
@@ -82,6 +110,7 @@ export default function Sidebar(data: any) {
             to: "/profile",
             func: "",
             icon: "",
+            submenuId: "sub-52022",
             submenu: false,
         },
         {
@@ -90,6 +119,7 @@ export default function Sidebar(data: any) {
             to: "/user",
             func: "",
             icon: "",
+            submenuId: "sub-62022",
             submenu: false,
         },
         {
@@ -98,6 +128,7 @@ export default function Sidebar(data: any) {
             to: "/authorized",
             func: "",
             icon: "",
+            submenuId: "sub-72022",
             submenu: false,
         },
         {
@@ -106,6 +137,7 @@ export default function Sidebar(data: any) {
             to: "/settings",
             func: "",
             icon: "",
+            submenuId: "sub-82022",
             submenu: false,
         },
         {
@@ -114,6 +146,7 @@ export default function Sidebar(data: any) {
             to: "/api",
             func: "",
             icon: "",
+            submenuId: "sub-92022",
             submenu: false,
         },
         {
@@ -122,11 +155,15 @@ export default function Sidebar(data: any) {
             to: "/docs",
             func: "",
             icon: "",
+            submenuId: "sub-13022",
             submenu: false,
         }
 
 
     ])
+
+
+
 
 
     return (
@@ -138,13 +175,13 @@ export default function Sidebar(data: any) {
                             return (
                                 <Fragment key={item.id}>
                                     <li>
-                                        <Link href={item.to}>
-                                            <a className={`side-menu`}>
+                                        <Link role="button" href={item.to === "" ? ("") : (item.to)}>
+                                            <a id={item.submenuId} onClick={item.to === "" ? (handleClick) : ("")} className={`side-menu ${menuId === item.submenuId ? (isActive ? "side-menu side-menu--active" : null) : (null)}  `}>
                                                 <div className="side-menu__icon">{item.icon}</div>
-                                                <div className="side-menu__title">{item.name}</div>
+                                                <div className="side-menu__title">{item.name}{item.submenu === false ? ("") : (<div className="side-menu__sub-icon"><FontAwesomeIcon icon={faAngleDown} className="h-4" /></div>)}</div>
                                             </a>
                                         </Link>
-                                        <ul>
+                                        <ul className={`${menuId === item.submenuId ? (isActive ? "side-menu__sub-open" : null) : (null)}`}>
                                             {
                                                 (item.submenu || []).map((subitem: any) => {
                                                     return (

@@ -1,7 +1,4 @@
 import { NextPage } from "next";
-import Table from "../element/table";
-import Header from "../module/header/header";
-import Sidebar from "../module/sidebar/sidebar";
 const Dash: NextPage = () => {
 
     const indicator = {

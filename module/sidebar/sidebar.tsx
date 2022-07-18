@@ -18,13 +18,14 @@ export default function Sidebar(data: any) {
     const [isActive, setActive] = useState(Boolean);
     const [menuId, SetmenuId] = useState();
     const handleClick = (event: any) => {
-        isActive === true ? setActive(!isActive) : setActive(isActive)
-        console.log(isActive)
+        
         SetmenuId(event.currentTarget.id)
+
+        SidebarMenu.map((item) => 
+        { 
+            item.submenuId === event.currentTarget.id ? (isActive === true ? setActive(!isActive) : setActive(isActive)) : ("") 
+        })
     };
-
-
-
 
 
     const [SidebarMenu] = useState([

@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import Header from "../module/header/header"
 import Sidebar from "../module/sidebar/sidebar"
 
-const Isplani: NextPage = () => {
+const Checkin: NextPage = () => {
     return (
         <>
 
@@ -10,7 +10,7 @@ const Isplani: NextPage = () => {
             <div className="flex overflow-hidden">
                 <Sidebar />
                 <div className="content">
-                    asdasd
+                    Checkin
                 </div>
             </div>
 
@@ -18,4 +18,4 @@ const Isplani: NextPage = () => {
         </>
     )
 }
-export default Isplani
+export default Checkin

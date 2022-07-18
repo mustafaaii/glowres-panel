@@ -15,16 +15,42 @@ export default function Sidebar(data: any) {
 
     const router = useRouter();
 
-    const [isActive, setActive] = useState(Boolean);
-    const [menuId, SetmenuId] = useState();
-    const handleClick = (event: any) => {
-        
-        SetmenuId(event.currentTarget.id)
+    const [isActive, setActive] = useState(false);
+    const [menuId, SetmenuId] = useState(String);
 
-        SidebarMenu.map((item) => 
-        { 
-            item.submenuId === event.currentTarget.id ? (isActive === true ? setActive(!isActive) : setActive(isActive)) : ("") 
+
+    const HandlerClick = (event: any) => {
+
+        SetmenuId(event.currentTarget.id)
+        SidebarMenu.map((item) => {
+            if (item.id === event.currentTarget.id) {
+
+               
+                
+                const Class = document.getElementById(event.currentTarget.id)?.getAttribute("class");
+                if(Class === "side-menu side-menu--active ")
+                {
+                    setActive(!isActive)
+                }
+                else
+                {
+                    if(isActive === false)
+                    {
+                        setActive(!isActive)
+                    }
+                    else
+                    {
+                        setActive(isActive)
+                    }
+                }
+                console.log()
+                
+            }
+           
         })
+
+
+
     };
 
 
@@ -35,7 +61,6 @@ export default function Sidebar(data: any) {
             to: "/",
             func: "",
             icon: "",
-            submenuId: "sub-02022",
             submenu: false,
         },
         {
@@ -43,7 +68,6 @@ export default function Sidebar(data: any) {
             name: "Günlük Akış",
             to: "",
             icon: "",
-            submenuId: "sub-12022",
             submenu: [
                 {
                     id: "12",
@@ -54,7 +78,7 @@ export default function Sidebar(data: any) {
                 {
                     id: "13",
                     name: "Chekc In",
-                    to: "/check-in",
+                    to: "/checkin",
                     icon: "",
                 }
             ],
@@ -64,7 +88,6 @@ export default function Sidebar(data: any) {
             name: "Güncel Stoklar",
             to: "",
             icon: "",
-            submenuId: "sub-22022",
             submenu: [
                 {
                     id: "220221",
@@ -92,7 +115,6 @@ export default function Sidebar(data: any) {
             to: "/seo",
             func: "",
             icon: "",
-            submenuId: "sub-32022",
             submenu: false,
         },
         {
@@ -101,7 +123,6 @@ export default function Sidebar(data: any) {
             to: "/file-manager",
             func: "",
             icon: "",
-            submenuId: "sub-42022",
             submenu: false,
         },
         {
@@ -110,7 +131,6 @@ export default function Sidebar(data: any) {
             to: "/profile",
             func: "",
             icon: "",
-            submenuId: "sub-52022",
             submenu: false,
         },
         {
@@ -119,7 +139,6 @@ export default function Sidebar(data: any) {
             to: "/user",
             func: "",
             icon: "",
-            submenuId: "sub-62022",
             submenu: false,
         },
         {
@@ -128,7 +147,6 @@ export default function Sidebar(data: any) {
             to: "/authorized",
             func: "",
             icon: "",
-            submenuId: "sub-72022",
             submenu: false,
         },
         {
@@ -137,7 +155,6 @@ export default function Sidebar(data: any) {
             to: "/settings",
             func: "",
             icon: "",
-            submenuId: "sub-82022",
             submenu: false,
         },
         {
@@ -146,7 +163,6 @@ export default function Sidebar(data: any) {
             to: "/api",
             func: "",
             icon: "",
-            submenuId: "sub-92022",
             submenu: false,
         },
         {
@@ -155,14 +171,13 @@ export default function Sidebar(data: any) {
             to: "/docs",
             func: "",
             icon: "",
-            submenuId: "sub-13022",
             submenu: false,
         }
 
 
     ])
-
-
+    //${router.pathname === item.to ? "side-menu--active" : ""}
+    //${item.submenu === false ? (null) : (item.submenu.map((sunitem: any) => { router.pathname === sunitem.to ? "side-menu--active" : "" }
 
 
 
@@ -170,43 +185,42 @@ export default function Sidebar(data: any) {
         <>
             <nav className="side-nav">
                 <ul>
+
                     {
-                        (SidebarMenu || []).map((item: any) => {
+                        SidebarMenu.map((item: any) => {
                             return (
-                                <Fragment key={item.id}>
-                                    <li>
-                                        <Link role="button" href={item.to === "" ? ("") : (item.to)}>
-                                            <a id={item.submenuId} onClick={item.to === "" ? (handleClick) : ("")} className={`side-menu ${menuId === item.submenuId ? (!isActive ? "side-menu side-menu--active" : null) : (null)}  `}>
-                                                <div className="side-menu__icon">{item.icon}</div>
-                                                <div className="side-menu__title">{item.name}{item.submenu === false ? ("") : (<div className="side-menu__sub-icon"><FontAwesomeIcon icon={faAngleDown} className="h-4" /></div>)}</div>
-                                            </a>
-                                        </Link>
-                                        <ul className={`${menuId === item.submenuId ? (!isActive ? "side-menu__sub-open" : null) : (null)}`}>
-                                            {
-                                                (item.submenu || []).map((subitem: any) => {
-                                                    return (
-                                                        <li key={subitem.id}>
-                                                            <a href={subitem.to} className="side-menu">
+                                <li key={item.id}>
+                                    <Link role="button" href={item.submenu === false ? (item.to) : ("#")}>
+                                        <a id={item.id} className={`side-menu ${item.submenu === false ? (router.pathname === item.to ? "side-menu--active" : "") : (menuId === item.id ? (isActive ? ("side-menu--active") : ("")) : (""))} `} onClick={item.submenu === false ? (null) : (HandlerClick)}>
+                                            <div className="side-menu__icon"></div>
+                                            <div className="side-menu__title">{item.name}</div>
+                                        </a>
+                                    </Link>
+                                    <ul className={`${item.submenu === false ? (null) : (menuId === item.id ? (isActive ? ("side-menu__sub-open") : ("")) : (null))}  ${router.pathname === item.to ? "side-menu__sub-open" : ""}`}>
+                                        {
+                                            (item.submenu || []).map((subitem: any) => {
+                                                return (
+                                                    <li key={subitem.id}>
+                                                        <Link href={subitem.to}>
+                                                            <a className="side-menu">
                                                                 <div className="side-menu__icon">{subitem.icon}</div>
                                                                 <div className="side-menu__title">{subitem.name}</div>
                                                             </a>
-                                                        </li>
-                                                    )
-                                                })
-                                            }
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            })
+                                        }
 
-                                        </ul>
-                                    </li>
-                                    {
-                                        item.id === "42022" ? (<li className="side-nav__devider my-6"></li>) : ("")
-                                    }
-                                    {
-                                        item.id === "72022" ? (<li className="side-nav__devider my-6"></li>) : ("")
-                                    }
-                                </Fragment>
+                                    </ul>
+                                </li>
                             )
                         })
                     }
+
+
+
+
 
                 </ul>
             </nav>

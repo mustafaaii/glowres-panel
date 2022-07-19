@@ -1,38 +1,25 @@
+if (item.id === event.currentTarget.id) {
+    (item.submenu || []).map((subitem: any) => {
+        if (subitem.to === router.pathname) { status = true; }
+    })
+    if (status === false) {
+        document.getElementById(item.id)?.classList.toggle("side-menu--active");
+        document.getElementById(`sub${item.id}`)?.classList.toggle("side-menu__sub-open");
+        document.getElementById(`ico${item.id}`)?.classList.toggle("rotate-180");
 
-                    {
-                        (SidebarMenu || []).map((item: any) => {
-                            return (
-                                <Fragment key={item.id}>
-                                    <li>
-                                        <Link role="button" href={item.to === "" ? ("") : (item.to)}>
-                                            <a id={item.submenuId} onClick={item.to === "" ? (handleClick) : ("")} className={`side-menu ${menuId === item.submenuId ? (!isActive ? "side-menu side-menu--active" : null) : (null)}  `}>
-                                                <div className="side-menu__icon">{item.icon}</div>
-                                                <div className="side-menu__title">{item.name}{item.submenu === false ? ("") : (<div className="side-menu__sub-icon"><FontAwesomeIcon icon={faAngleDown} className="h-4" /></div>)}</div>
-                                            </a>
-                                        </Link>
-                                        <ul className={`${menuId === item.submenuId ? (!isActive ? "side-menu__sub-open" : null) : (null)}`}>
-                                            {
-                                                (item.submenu || []).map((subitem: any) => {
-                                                    return (
-                                                        <li key={subitem.id}>
-                                                            <a href={subitem.to} className="side-menu">
-                                                                <div className="side-menu__icon">{subitem.icon}</div>
-                                                                <div className="side-menu__title">{subitem.name}</div>
-                                                            </a>
-                                                        </li>
-                                                    )
-                                                })
-                                            }
-
-                                        </ul>
-                                    </li>
-                                    {
-                                        item.id === "42022" ? (<li className="side-nav__devider my-6"></li>) : ("")
-                                    }
-                                    {
-                                        item.id === "72022" ? (<li className="side-nav__devider my-6"></li>) : ("")
-                                    }
-                                </Fragment>
-                            )
-                        })
-                    }
+    }
+}
+else {
+    (item.submenu || []).map((subitem: any) => {
+        if (subitem.to === router.pathname) {
+            unstatus = true;
+        }
+    })
+    if (item.to !== router.pathname) {
+        if (unstatus !== true) {
+            document.getElementById(item.id)?.classList.remove("side-menu--active")
+            document.getElementById(`sub${item.id}`)?.classList.remove("side-menu__sub-open")
+            document.getElementById(`ico${item.id}`)?.classList.remove("rotate-180")
+        }
+    } else { }
+}

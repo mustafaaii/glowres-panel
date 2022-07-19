@@ -270,7 +270,7 @@ const Dash: NextPage = () => {
 
             <div className="grid grid-cols-12 gap-6 mt-5">
                 <div className="intro-y col-span-12 lg:col-span-8">
-
+                    dash
                 </div>
                 <div className="intro-y col-span-12 lg:col-span-4">
 

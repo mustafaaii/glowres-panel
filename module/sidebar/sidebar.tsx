@@ -6,6 +6,7 @@
 
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AnyARecord } from "dns";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
@@ -15,43 +16,47 @@ export default function Sidebar(data: any) {
 
     const router = useRouter();
 
-    const [isActive, setActive] = useState(false);
-    const [menuId, SetmenuId] = useState(String);
+    var status = false;
+    var unstatus = false;
+    const HandlerSubmit = (event: any) => {
+        SidebarMenu.map((item: any) => {
 
 
-    const HandlerClick = (event: any) => {
 
-        SetmenuId(event.currentTarget.id)
-        SidebarMenu.map((item) => {
+
+
             if (item.id === event.currentTarget.id) {
+                (item.submenu || []).map((subitem: any) => {
+                    if (subitem.to === router.pathname) { status = true; }
+                })
+                if (status === false) {
+                    document.getElementById(item.id)?.classList.toggle("side-menu--active");
+                    document.getElementById(`sub${item.id}`)?.classList.toggle("side-menu__sub-open");
+                    document.getElementById(`ico${item.id}`)?.classList.toggle("rotate-180");
 
-               
-                
-                const Class = document.getElementById(event.currentTarget.id)?.getAttribute("class");
-                if(Class === "side-menu side-menu--active ")
-                {
-                    setActive(!isActive)
                 }
-                else
-                {
-                    if(isActive === false)
-                    {
-                        setActive(!isActive)
-                    }
-                    else
-                    {
-                        setActive(isActive)
-                    }
-                }
-                console.log()
-                
             }
-           
+            else {
+                (item.submenu || []).map((subitem: any) => {
+                    if (subitem.to === router.pathname) {
+                        unstatus = true;
+                    }
+                })
+                if (item.to !== router.pathname) {
+                    if (unstatus !== true) {
+                        document.getElementById(item.id)?.classList.remove("side-menu--active")
+                        document.getElementById(`sub${item.id}`)?.classList.remove("side-menu__sub-open")
+                        document.getElementById(`ico${item.id}`)?.classList.remove("rotate-180")
+                    }
+                } else { }
+            }
+
+
+
         })
-
-
-
     };
+    const HandlerunSubmit = () => { };
+
 
 
     const [SidebarMenu] = useState([
@@ -115,7 +120,26 @@ export default function Sidebar(data: any) {
             to: "/seo",
             func: "",
             icon: "",
-            submenu: false,
+            submenu: [
+                {
+                    id: "320221",
+                    name: "deneme1",
+                    to: "/deneme1",
+                    icon: "",
+                },
+                {
+                    id: "320222",
+                    name: "Peron Sayım",
+                    to: "/peron-sayim",
+                    icon: "",
+                },
+                {
+                    id: "320223",
+                    name: "Envanter",
+                    to: "/envanter",
+                    icon: "",
+                }
+            ],
         },
         {
             id: "42022",
@@ -176,10 +200,6 @@ export default function Sidebar(data: any) {
 
 
     ])
-    //${router.pathname === item.to ? "side-menu--active" : ""}
-    //${item.submenu === false ? (null) : (item.submenu.map((sunitem: any) => { router.pathname === sunitem.to ? "side-menu--active" : "" }
-
-
 
     return (
         <>
@@ -190,21 +210,28 @@ export default function Sidebar(data: any) {
                         SidebarMenu.map((item: any) => {
                             return (
                                 <li key={item.id}>
-                                    <Link role="button" href={item.submenu === false ? (item.to) : ("#")}>
-                                        <a id={item.id} className={`side-menu ${item.submenu === false ? (router.pathname === item.to ? "side-menu--active" : "") : (menuId === item.id ? (isActive ? ("side-menu--active") : ("")) : (""))} `} onClick={item.submenu === false ? (null) : (HandlerClick)}>
+                                    <Link role="button" href={item.submenu === false ? (item.to) : "#"}>
+                                        <div
+                                            id={item.id}
+                                            className={`side-menu cursor-pointer ${router.pathname === item.to ? ("a side-menu--active a") : (item.submenu === false ? ("") : (item.submenu.map((subitem: any) => { return (subitem.to.trim() === router.pathname.trim() ? ("a side-menu--active a") : ("")) })))}`}
+                                            onClick={item.submenu === false ? (HandlerunSubmit) : (HandlerSubmit)}
+                                        >
                                             <div className="side-menu__icon"></div>
-                                            <div className="side-menu__title">{item.name}</div>
-                                        </a>
+                                            <div className="side-menu__title">
+                                                {item.name}
+                                                {item.submenu === false ? ("") : (<div id={`ico${item.id}`} className="side-menu__sub-icon "><FontAwesomeIcon icon={faAngleDown} /> </div>)}
+                                            </div>
+                                        </div>
                                     </Link>
-                                    <ul className={`${item.submenu === false ? (null) : (menuId === item.id ? (isActive ? ("side-menu__sub-open") : ("")) : (null))}  ${router.pathname === item.to ? "side-menu__sub-open" : ""}`}>
+                                    <ul id={`sub${item.id}`} className={`${item.submenu === false ? ("") : (item.submenu.map((subitem: any) => { return (subitem.to === router.pathname ? ("a side-menu__sub-open a") : ("")) }))}`}>
                                         {
                                             (item.submenu || []).map((subitem: any) => {
                                                 return (
                                                     <li key={subitem.id}>
                                                         <Link href={subitem.to}>
                                                             <a className="side-menu">
-                                                                <div className="side-menu__icon">{subitem.icon}</div>
-                                                                <div className="side-menu__title">{subitem.name}</div>
+                                                                <div className={`side-menu__icon`}>{subitem.icon}</div>
+                                                                <div className={`side-menu__title`}>{subitem.name}</div>
                                                             </a>
                                                         </Link>
                                                     </li>

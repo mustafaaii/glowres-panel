@@ -4,87 +4,77 @@
 /* Element Version : 0.1
 */
 
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faCodeFork, faLayerGroup, faSpellCheck, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AnyARecord } from "dns";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
+import { useState } from "react";
 
 
 export default function Sidebar(data: any) {
-
     const router = useRouter();
-
     var status = false;
-    var unstatus = false;
+    var exters = "";
     const HandlerSubmit = (event: any) => {
         SidebarMenu.map((item: any) => {
-
-
-
-
-
-            if (item.id === event.currentTarget.id) {
-                (item.submenu || []).map((subitem: any) => {
-                    if (subitem.to === router.pathname) { status = true; }
-                })
-                if (status === false) {
-                    document.getElementById(item.id)?.classList.toggle("side-menu--active");
-                    document.getElementById(`sub${item.id}`)?.classList.toggle("side-menu__sub-open");
-                    document.getElementById(`ico${item.id}`)?.classList.toggle("rotate-180");
-
+            (item.submenu || []).map((subitem: any) => { if (subitem.to === router.pathname) { status = true; exters = subitem.to } })
+            if (status === false) {
+                if (item.id === event.currentTarget.id) {
+                    document.getElementById(item.id)?.classList.toggle("side-menu--active")
+                    document.getElementById(`sub${item.id}`)?.classList.toggle("side-menu__sub-open")
+                    document.getElementById(`ico${item.id}`)?.classList.toggle("rotate-180")
+                }
+                else if (item.to !== router.pathname) {
+                    document.getElementById(item.id)?.classList.remove("side-menu--active")
+                    document.getElementById(`sub${item.id}`)?.classList.remove("side-menu__sub-open")
+                    document.getElementById(`ico${item.id}`)?.classList.remove("rotate-180")
                 }
             }
             else {
-                (item.submenu || []).map((subitem: any) => {
-                    if (subitem.to === router.pathname) {
-                        unstatus = true;
-                    }
-                })
-                if (item.to !== router.pathname) {
-                    if (unstatus !== true) {
-                        document.getElementById(item.id)?.classList.remove("side-menu--active")
-                        document.getElementById(`sub${item.id}`)?.classList.remove("side-menu__sub-open")
-                        document.getElementById(`ico${item.id}`)?.classList.remove("rotate-180")
-                    }
-                } else { }
+                if (item.id === event.currentTarget.id) {
+                    document.getElementById(item.id)?.classList.toggle("side-menu--active")
+                    document.getElementById(`sub${item.id}`)?.classList.toggle("side-menu__sub-open")
+                    document.getElementById(`ico${item.id}`)?.classList.toggle("rotate-180")
+                }
+                else if (item.to !== router.pathname) {
+                    document.getElementById(item.id)?.classList.remove("side-menu--active")
+                    document.getElementById(`sub${item.id}`)?.classList.remove("side-menu__sub-open")
+                    document.getElementById(`ico${item.id}`)?.classList.remove("rotate-180")
+                }
             }
-
-
-
         })
+
+        console.log(status)
     };
     const HandlerunSubmit = () => { };
-
-
-
     const [SidebarMenu] = useState([
         {
             id: "02022",
             name: "Dashboard",
             to: "/",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faCircleExclamation} />,
             submenu: false,
         },
         {
             id: "12022",
             name: "Günlük Akış",
             to: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faSun} />,
             submenu: [
                 {
                     id: "12",
                     name: "İş Planı",
                     to: "/isplani",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faCodeFork} />,
                 },
                 {
                     id: "13",
                     name: "Chekc In",
                     to: "/checkin",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faSpellCheck} />,
                 }
             ],
         },
@@ -92,25 +82,25 @@ export default function Sidebar(data: any) {
             id: "22022",
             name: "Güncel Stoklar",
             to: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faLayerGroup} />,
             submenu: [
                 {
                     id: "220221",
                     name: "Peron",
                     to: "/peron",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faPhone} />,
                 },
                 {
                     id: "220222",
                     name: "Peron Sayım",
                     to: "/peron-sayim",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faPhone} />,
                 },
                 {
                     id: "220223",
                     name: "Envanter",
                     to: "/envanter",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faPhone} />,
                 }
             ],
         },
@@ -119,25 +109,25 @@ export default function Sidebar(data: any) {
             name: "Seo",
             to: "/seo",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: [
                 {
                     id: "320221",
                     name: "deneme1",
                     to: "/deneme1",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faPhone} />,
                 },
                 {
                     id: "320222",
                     name: "Peron Sayım",
                     to: "/peron-sayim",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faPhone} />,
                 },
                 {
                     id: "320223",
                     name: "Envanter",
                     to: "/envanter",
-                    icon: "",
+                    icon: <FontAwesomeIcon icon={faPhone} />,
                 }
             ],
         },
@@ -146,7 +136,7 @@ export default function Sidebar(data: any) {
             name: "File Manager",
             to: "/file-manager",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         },
         {
@@ -154,7 +144,7 @@ export default function Sidebar(data: any) {
             name: "Profile",
             to: "/profile",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         },
         {
@@ -162,7 +152,7 @@ export default function Sidebar(data: any) {
             name: "User",
             to: "/user",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         },
         {
@@ -170,7 +160,7 @@ export default function Sidebar(data: any) {
             name: "Authorized",
             to: "/authorized",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         },
         {
@@ -178,7 +168,7 @@ export default function Sidebar(data: any) {
             name: "Settings",
             to: "/settings",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         },
         {
@@ -186,7 +176,7 @@ export default function Sidebar(data: any) {
             name: "Api",
             to: "/api",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         },
         {
@@ -194,7 +184,7 @@ export default function Sidebar(data: any) {
             name: "Documents",
             to: "/docs",
             func: "",
-            icon: "",
+            icon: <FontAwesomeIcon icon={faPhone} />,
             submenu: false,
         }
 
@@ -216,7 +206,7 @@ export default function Sidebar(data: any) {
                                             className={`side-menu cursor-pointer ${router.pathname === item.to ? ("a side-menu--active a") : (item.submenu === false ? ("") : (item.submenu.map((subitem: any) => { return (subitem.to.trim() === router.pathname.trim() ? ("a side-menu--active a") : ("")) })))}`}
                                             onClick={item.submenu === false ? (HandlerunSubmit) : (HandlerSubmit)}
                                         >
-                                            <div className="side-menu__icon"></div>
+                                            <div className="side-menu__icon">{item.icon}</div>
                                             <div className="side-menu__title">
                                                 {item.name}
                                                 {item.submenu === false ? ("") : (<div id={`ico${item.id}`} className="side-menu__sub-icon "><FontAwesomeIcon icon={faAngleDown} /> </div>)}

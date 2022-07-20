@@ -46,7 +46,20 @@ export default function Inducator(data: any) {
                                                     <div className="flex">
                                                         <Image src={item.icon} alt={"alt"} class={"pt-2"} />
                                                         <div className="ml-auto">
-                                                            <div className="report-box__indicator bg-success tooltip cursor-pointer"> 33% </div>
+                                                            <div className={`report-box__indicator ${Math.floor(item.total / item.range) < 50 ? "bg-danger":"bg-success"} tooltip cursor-pointer`}>
+
+                                                                {item.range}%
+
+                                                                {Math.floor(item.total / 7) < 50 ?
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="chevron-down" data-lucide="chevron-down" className="lucide lucide-chevron-down w-4 h-4 ml-0.5">
+                                                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                                                    </svg>
+                                                                    :
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="chevron-up" data-lucide="chevron-up" className="lucide lucide-chevron-up w-4 h-4 ml-0.5">
+                                                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                                                    </svg>
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="text-3xl font-medium leading-8 mt-6">{item.value}</div>

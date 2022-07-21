@@ -25,7 +25,7 @@ export default function Header(data: any) {
                             </li>
                             <li className="breadcrumb-item active capitalize" aria-current="page">
                                 {
-                                    router.pathname === "/" ? "Dashboard" : router.pathname
+                                    router.pathname === "/" ? "Dashboard" : router.pathname.split("/")
                                 }
                             </li>
                         </ol>

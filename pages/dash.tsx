@@ -76,47 +76,47 @@ const Dash: NextPage = () => {
     const HeadData = {
         data: [
             {
-                HeadId: 0,
+                HeadId: 20210,
                 HeadTitle: "ID",
                 HeadClass: "",
             },
             {
-                HeadId: 1,
+                HeadId: 20211,
                 HeadTitle: "Nakliye",
                 HeadClass: "",
             },
             {
-                HeadId: 2,
+                HeadId: 20212,
                 HeadTitle: "Kargo",
                 HeadClass: "",
             },
             {
-                HeadId: 3,
+                HeadId: 20213,
                 HeadTitle: "HG",
                 HeadClass: "",
             },
             {
-                HeadId: 4,
+                HeadId: 20214,
                 HeadTitle: "Numune",
                 HeadClass: "",
             },
             {
-                HeadId: 5,
+                HeadId: 20215,
                 HeadTitle: "SSH",
                 HeadClass: "",
             },
             {
-                HeadId: 6,
+                HeadId: 20216,
                 HeadTitle: "Toplam",
                 HeadClass: "",
             },
             {
-                HeadId: 7,
+                HeadId: 20217,
                 HeadTitle: "%",
                 HeadClass: "",
             },
             {
-                HeadId: 8,
+                HeadId: 20218,
                 HeadTitle: "asd",
                 HeadClass: "",
             },
@@ -127,7 +127,7 @@ const Dash: NextPage = () => {
     const BodyData = {
         data: [
             {
-                val_0: 1,
+                val_0: 202212,
                 val_1: "Text1",
                 val_2: "Text2",
                 val_3: "Text3",
@@ -138,11 +138,11 @@ const Dash: NextPage = () => {
                 val_8: "Text8",
             },
             {
-                val_0: 2,
+                val_0: 202213,
                 val_1: "asd",
                 val_2: "Text2",
                 val_3: "Texdasasdt3",
-                val_4: "asd",
+                val_4: "asdasdasd",
                 val_5: "Teasdxt5",
                 val_6: "12",
                 val_7: "14",

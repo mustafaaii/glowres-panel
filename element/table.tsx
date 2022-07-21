@@ -18,8 +18,6 @@ export default function Table(data: any) {
         HeadTotal: data.Total,
         BodyOp: data.BodyOp,
     });
-
-
     const lastcolumn = ElementTable.HeadTotal - 1;
 
     return (
@@ -33,7 +31,7 @@ export default function Table(data: any) {
                         <thead>
                             <tr>
                                 {
-                                    ElementTable.HeadData.map((item: any) => { return (<th key={`${item.id + item.HeadTitle}`} className={`whitespace-nowrap ${ElementTable.BodyOp.HeaderPositionClass}`}>{item.HeadTitle}</th>) })
+                                    ElementTable.HeadData.map((item: any) => { return (<th key={`${item.HeadId}`} className={`whitespace-nowrap ${ElementTable.BodyOp.HeaderPositionClass}`}>{item.HeadTitle}</th>) })
                                 }
                                 {
                                     ElementTable.BodyOp.ColumnStatus === false ? "" : <th className={`whitespace-nowrap ${ElementTable.BodyOp.HeaderPositionClass}`}>

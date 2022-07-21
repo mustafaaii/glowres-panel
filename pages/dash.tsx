@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NextPage } from "next";
 import Inducator from "../element/indicator";
 import Table from "../element/table";
@@ -47,19 +48,23 @@ const Dash: NextPage = () => {
     }
 
     const TableSettings = {
-        LastColumn: true,
-        LastColumnName: "Test",
+        ColumnStatus: true,
+        ColumnName: "Test",
         Edit: {
-            EditButtonStatus: true,
-            EditButton: "Edit",
+            Status: true,
+            Text: "Edit",
+            func: (e: any) => { console.log(e.currentTarget.id) },
         },
         Delete: {
-            DeleteButtonStatus: true,
-            DeleteButton: "Delete",
+            Status: true,
+            Text: "Delete",
+            func: (e: any) => { console.log(e.currentTarget.id) },
+
         },
         View: {
-            ViewButtonStatus: false,
-            ViewButton: "View",
+            Status: false,
+            Text: "View",
+            func: (e: any) => { console.log(e.currentTarget.id) },
         },
 
         HeaderPositionClass: "text-center",
@@ -72,7 +77,7 @@ const Dash: NextPage = () => {
         data: [
             {
                 HeadId: 0,
-                HeadTitle: "Tarih",
+                HeadTitle: "ID",
                 HeadClass: "",
             },
             {
@@ -110,94 +115,100 @@ const Dash: NextPage = () => {
                 HeadTitle: "%",
                 HeadClass: "",
             },
+            {
+                HeadId: 8,
+                HeadTitle: "asd",
+                HeadClass: "",
+            },
         ],
-        total: 8,
+        total: 9,
     }
+
     const BodyData = {
         data: [
             {
-                id: 0,
-                tarih: "18/07",
-                nakliye: "0/27",
-                kargo: "Header1",
-                hg: "Header1",
-                numune: "Header1",
-                ssh: "",
-                toplam: "2/27",
-                yuzde: "8%",
-                class: "text-center",
+                val_0: 1,
+                val_1: "Text1",
+                val_2: "Text2",
+                val_3: "Text3",
+                val_4: "Text4",
+                val_5: "Text5",
+                val_6: "Text6",
+                val_7: "Text7",
+                val_8: "Text8",
             },
             {
-                id: 1,
-                tarih: "18/07",
-                nakliye: "0/27",
-                kargo: "Header1",
-                hg: "Header1",
-                numune: "Header1",
-                ssh: "",
-                toplam: "2/27",
-                yuzde: "8%",
-                class: "text-center",
-            },
-            {
-                id: 2,
-                tarih: "18/07",
-                nakliye: "0/27",
-                kargo: "Header1",
-                hg: "Header1",
-                numune: "Header1",
-                ssh: "",
-                toplam: "2/27",
-                yuzde: "8%",
-                class: "text-center",
-            },
-            {
-                id: 3,
-                tarih: "18/07",
-                nakliye: "0/27",
-                kargo: "Header1",
-                hg: "Header1",
-                numune: "Header1",
-                ssh: "",
-                toplam: "2/27",
-                yuzde: "8%",
-                class: "text-center",
-            },
-            {
-                id: 4,
-                tarih: "18/07",
-                nakliye: "0/27",
-                kargo: "Header1",
-                hg: "Header1",
-                numune: "Header1",
-                ssh: "",
-                toplam: "2/27",
-                yuzde: "8%",
-                class: "text-center",
-            },
-            {
-                id: 5,
-                tarih: "18/07",
-                nakliye: "0/27",
-                kargo: "Header1",
-                hg: "Header1",
-                numune: "Header1",
-                ssh: "",
-                toplam: "2/27",
-                yuzde: "8%",
-                class: "text-center",
+                val_0: 2,
+                val_1: "asd",
+                val_2: "Text2",
+                val_3: "Texdasasdt3",
+                val_4: "asd",
+                val_5: "Teasdxt5",
+                val_6: "12",
+                val_7: "14",
+                val_8: "61",
             },
         ],
-        total: 6,
     }
+
+    const Tables = {
+        table_name: "asdas66666",
+        data: [
+            {
+                data_name: "id",
+                data_type: "INT(6)",
+                data_null: "",
+                data_auis: "UNSIGNED",
+                data_prim: "PRIMARY KEY",
+                data_auin: "AUTO_INCREMENT",
+            },
+            {
+                data_name: "test2",
+                data_type: "VARCHAR(30)",
+                data_null: "NOT NULL",
+                data_auis: "",
+                data_prim: "",
+                data_auin: "",
+            },
+            {
+                data_name: "test3",
+                data_type: "VARCHAR(40)",
+                data_null: "NOT NULL",
+                data_auis: "",
+                data_prim: "",
+                data_auin: "",
+            },
+            {
+                data_name: "test4",
+                data_type: "VARCHAR(10)",
+                data_null: "NOT NULL",
+                data_auis: "",
+                data_prim: "",
+                data_auin: "",
+            },
+            {
+                data_name: "lasad4",
+                data_type: "VARCHAR(10)",
+                data_null: "NOT NULL",
+                data_auis: "",
+                data_prim: "",
+                data_auin: "",
+            }
+        ],
+
+
+    }
+    var api_url = "";
+    const create_table = () => { axios.post('https://localhost/api/table/create_table.php', { data: Tables, }).then(({ data }) => { console.log(data) }); }
     return (
         <div className="grid grid-cols-12 gap-6 mt-5">
             <div className="intro-y col-span-12 lg:col-span-12">
                 <Inducator InducatorData={indicator.data} InducatorTotal={indicator.total} />
             </div>
             <div className="intro-y col-span-12 lg:col-span-12">
-                <Table HeadData={HeadData.data} BodyData={BodyData.data} BodyOp={TableSettings} />
+                <Table HeadData={HeadData.data} Total={HeadData.total} BodyData={BodyData.data} BodyOp={TableSettings} />
             </div>
+            <button onClick={create_table}>Create Table</button>
         </div>
     )
 }

@@ -4,7 +4,8 @@
 /* Element Version : 0.1
 */
 import { useState } from "react";
-type ElementInputData = {
+type ElementInputData =
+{
     id: any,
     type: string,
     name: string,
@@ -14,7 +15,8 @@ type ElementInputData = {
     clickfunc?: () => void,
     changefunc?: () => void,
 }
-export default function Input(data: any) {
+export default function Input(data: any)
+{
     const [ElementInput] = useState<ElementInputData>({
         id: data.id,
         type: data.type,
@@ -25,16 +27,18 @@ export default function Input(data: any) {
         clickfunc: data.onclick,
         changefunc: data.onchange,
     });
+
     const [InputValue, setInputValue] = useState(ElementInput.value);
     const ChangeValue = (event: any) => { setInputValue(event.target.value); };
-    return (
+
+    return(
         <>
             <input
                 id={ElementInput.id}
                 type={ElementInput.type}
                 name={ElementInput.name}
                 className={ElementInput.class}
-                value={InputValue}
+                value={InputValue || ""}
                 placeholder={ElementInput.placeholder}
                 onClick={ElementInput.clickfunc}
                 onChange={ChangeValue}

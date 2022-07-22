@@ -25,19 +25,22 @@ const Settings: NextPage = () => {
     const List = async () => {
         const { data } = await axios.post('https://localhost/api/database/get_database.php', { op: "database_list", });
         SetDataBaseList(data);
+
     }
     //#endregion
 
 
-    console.log(DataBaseList.data)
+    console.log(DataBaseList)
 
-
+    const HandlerDeleteDatabase = (e: any) => {
+        alert(e)
+    }
 
 
     const [database, setdatabasename] = useState('');
     const FormSubmit = (event: any) => {
         event.preventDefault();
-        axios.post('https://localhost/api/database/create_database.php', { database: database, }).then(({ data }) => { console.log(data) });
+        axios.post('https://localhost/api/database/create_database.php', { database: database, }).then(({ data }) => { List(); });
     }
     const Tabsetting = {
         active: "bg-primary text-white",
@@ -157,12 +160,12 @@ const Settings: NextPage = () => {
                                         </div>
                                     </form>
                                 </div>
-                                <div className="col-span-12 2xl:col-span-6 2xl:border-l p-2">
-                                    <table className="table table-bordered md:table-fixed  table table-striped">
+                                <div className="col-span-12 2xl:col-span-6">
+                                    <table className="table intro-y table-bordered md:table-fixed  table table-striped">
                                         <thead>
                                             <tr>
                                                 <th className={`whitespace-nowrap`}>Database Name</th>
-                                                <th className={`whitespace-nowrap`}>Total Table</th>
+                                                <th className={`whitespace-nowrap`} style={{ width: "88px" }}>Total Table</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -171,7 +174,19 @@ const Settings: NextPage = () => {
                                                     return (
                                                         <tr>
                                                             <td>{item.name}</td>
-                                                            <td></td>
+                                                            <td className="text-center" style={{ width: "110px" }}>
+                                                                <div id={item.name} onClick={(e) => { HandlerDeleteDatabase(e.currentTarget.id) }} className="pointer-cursor">
+                                                                    <div className="delete flex items-center  cursor-pointer text-danger">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="trash-2" data-lucide="trash-2" className="lucide lucide-trash-2 w-4 h-4 mr-1">
+                                                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                                                            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                                                                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                                        </svg>
+                                                                        Delete
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     )
                                                 })

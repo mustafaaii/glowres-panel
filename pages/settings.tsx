@@ -14,23 +14,22 @@ type DataBaseList = {
 
 
 const Settings: NextPage = () => {
+
+
+    //#region  DATABASE LIST
     const [DataBaseList, SetDataBaseList] = useState<DataBaseList>({
         data: [],
         status: false,
         totalItems: 0
     });
-
     const List = async () => {
         const { data } = await axios.post('https://localhost/api/database/get_database.php', { op: "database_list", });
         SetDataBaseList(data);
     }
+    //#endregion
 
 
-    useEffect(() => { List(); }, [])
-
-    console.log(DataBaseList)
-
-
+    console.log(DataBaseList.data)
 
 
 
@@ -40,10 +39,6 @@ const Settings: NextPage = () => {
         event.preventDefault();
         axios.post('https://localhost/api/database/create_database.php', { database: database, }).then(({ data }) => { console.log(data) });
     }
-
-
-
-
     const Tabsetting = {
         active: "bg-primary text-white",
         pasive: "bg-slate-200 text-slate-700",
@@ -105,7 +100,15 @@ const Settings: NextPage = () => {
 
 
 
+    //#region  AUTOSTART
+    useEffect(() => {
+        List();
 
+    }, [])
+
+
+
+    //#endregion
 
 
 
@@ -123,32 +126,6 @@ const Settings: NextPage = () => {
                 <div className="content">
                     <div className="intro-y box py-10 sm:py-20 mt-5">
                         <div className="flex justify-center">
-                            <table className="table table-bordered md:table-fixed  table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th className={`whitespace-nowrap`}>Database Name</th>
-                                        <th className={`whitespace-nowrap`}>Total Table</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        DataBaseList.data.map((item: any) => {
-                                            return (
-                                                <tr>
-                                                    <td>{item.name}</td>
-                                                    <td></td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-
-
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                        <div className="flex justify-center">
                             {
                                 Tabdata.data.map((item: any, index: number) => {
                                     return (
@@ -160,29 +137,52 @@ const Settings: NextPage = () => {
                                 })
                             }
                         </div>
-                        <div key={`tab${202290}`} id={`tab${202290}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${Tabdata.data.map((item: any, index: number) => { index === Tabsetting.opener ? "" : "none" })}` }}>
-
-                            <form onSubmit={FormSubmit} method="post">
-                                <div className="font-medium text-base">Create Database 1</div>
-                                <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
-
-                                    <div className="intro-y col-span-12 sm:col-span-6">
-                                        <label htmlFor="input-wizard-1" className="form-label">Database Name</label>
-                                        <input id="database" name="database" type="text" value={database} className="form-control" onChange={e => { setdatabasename(e.target.value) }} placeholder="Database Name" />
-                                    </div>
-
-                                    <div className="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
-                                        <button type="submit" className="btn btn-secondary w-24">Create</button>
-                                    </div>
+                        <div key={`tab${202290}`} id={`tab${202290}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${0 === Tabsetting.opener ? "block" : "none"}` }}>
+                            <div className="grid grid-cols-12 gap-6">
+                                <div className="col-span-12 2xl:col-span-6">
+                                    <form onSubmit={FormSubmit} method="post">
+                                        <div className="font-medium text-base">Create Database 1</div>
+                                        <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+                                            <div className="intro-y col-span-12 sm:col-span-12">
+                                                <label htmlFor="input-wizard-1" className="form-label">Database Name</label>
+                                                <input id="database" name="database" type="text" value={database} className="form-control" onChange={e => { setdatabasename(e.target.value) }} placeholder="Database Name" />
+                                            </div>
+                                            <div className="intro-y col-span-12 sm:col-span-12">
+                                                <label htmlFor="input-wizard-1" className="form-label">Database Name</label>
+                                                <input id="database" name="database" type="text" value={database} className="form-control" onChange={e => { setdatabasename(e.target.value) }} placeholder="Database Name" />
+                                            </div>
+                                            <div className="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
+                                                <button type="submit" className="btn btn-secondary w-24">Create</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div className="col-span-12 2xl:col-span-6 2xl:border-l p-2">
+                                    <table className="table table-bordered md:table-fixed  table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th className={`whitespace-nowrap`}>Database Name</th>
+                                                <th className={`whitespace-nowrap`}>Total Table</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                (DataBaseList.data || "").map((item: any) => {
+                                                    return (
+                                                        <tr>
+                                                            <td>{item.name}</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
 
                                 </div>
-                            </form>
-
-
-
-
+                            </div>
                         </div>
-                        <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${Tabdata.data.map((item: any, index: number) => { index === Tabsetting.opener ? "" : "none" })}` }}>
+                        <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>
                             <form onSubmit={FormSubmit} method="post">
                                 <div className="font-medium text-base">Create Database 2</div>
                                 <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
@@ -198,7 +198,7 @@ const Settings: NextPage = () => {
                                 </div>
                             </form>
                         </div>
-                        <div key={`tab${202292}`} id={`tab${202292}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${Tabdata.data.map((item: any, index: number) => { index === Tabsetting.opener ? "" : "none" })}` }}>
+                        <div key={`tab${202292}`} id={`tab${202292}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${2 === Tabsetting.opener ? "block" : "none"}` }}>
                             <form onSubmit={FormSubmit} method="post">
                                 <div className="font-medium text-base">Create Database 3</div>
                                 <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">

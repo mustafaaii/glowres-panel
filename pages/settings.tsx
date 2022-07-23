@@ -1,10 +1,11 @@
 import axios from "axios";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import Input from "../element/input";
 import Header from "../module/header/header";
 import Sidebar from "../module/sidebar/sidebar";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import ToCompare from "../data/tocompare.json";
+
 type DataBaseList = {
     data: [],
     status: boolean,
@@ -12,8 +13,7 @@ type DataBaseList = {
 }
 const Settings: NextPage = () => {
 
-
-    //#region GLOBAL
+    //#region  GLOBAL
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success text-white mr-2 ml-2 rounded-none',
@@ -21,9 +21,200 @@ const Settings: NextPage = () => {
         },
         buttonsStyling: false
     })
+
+
+    const DataType = {
+        default: [
+            {
+                name: "VARCHAR",
+            },
+            {
+                name: "TEXT",
+            },
+            {
+                name: "DATE",
+            },
+        ],
+        digital: [
+            {
+                name: "TNIYINT",
+            },
+            {
+                name: "SMALLINT",
+            },
+            {
+                name: "MEDIUMINT",
+            },
+            {
+                name: "INT",
+            },
+            {
+                name: "BIGINT",
+            },
+            {
+                name: "BIGINT",
+            },
+            {
+                name: "-",
+            },
+            {
+                name: "DECIMAL",
+            },
+            {
+                name: "FLOAT",
+            },
+            {
+                name: "DOUBLE",
+            },
+            {
+                name: "REAL",
+            },
+            {
+                name: "-",
+            },
+            {
+                name: "BIT",
+            },
+            {
+                name: "BOOLEN",
+            },
+            {
+                name: "SERIAL",
+            },
+        ],
+        dateandtime: [
+            {
+                name: "DATE",
+            },
+            {
+                name: "DATETIME",
+            },
+            {
+                name: "TIMESTAMP",
+            },
+            {
+                name: "TIME",
+            },
+            {
+                name: "YEAR",
+            },
+        ],
+        typesetting: [
+            {
+                name: "CHAR",
+            },
+            {
+                name: "VARCHAR",
+            },
+            {
+                name: "TINYTEXT",
+            },
+            {
+                name: "TEXT",
+            },
+            {
+                name: "MEDIUMTEXT",
+            },
+            {
+                name: "LONGTEXT",
+            },
+            {
+                name: "BINARY",
+            },
+            {
+                name: "VARBINARY",
+            },
+            {
+                name: "TINYBLOB",
+            },
+            {
+                name: "BLOB",
+            },
+            {
+                name: "MEDIUMBLOB",
+            },
+            {
+                name: "LONGBLOB",
+            },
+            {
+                name: "ENUM",
+            },
+            {
+                name: "SET",
+            },
+        ],
+        spatial: [
+            {
+                name: "GEOMETRY",
+            },
+            {
+                name: "POINT",
+            },
+            {
+                name: "LINESTRING",
+            },
+            {
+                name: "POLYGON",
+            },
+            {
+                name: "MULTIPOINT",
+            },
+            {
+                name: "MULTILINESTRING",
+            },
+            {
+                name: "MULTIPOLYGON",
+            },
+            {
+                name: "GEOMETRYCOLLECTION",
+            },
+        ],
+        json: [
+            {
+                name: "JSON",
+            },
+        ],
+    }
+
+    const Default = {
+        data: [
+            {
+                name: "No",
+            },
+            {
+                name: "As defined:",
+            },
+            {
+                name: "Null",
+            },
+            {
+                name: "CURRENT_TIMESTAMP",
+            },
+
+        ]
+    }
+
+
+
+
+    const [asdefined, setasdefined] = useState(0);
+    const SelectDefault = (e: any) => {
+        if (e.currentTarget.value === "As defined:") {
+            setasdefined(1)
+        }
+        else {
+            setasdefined(0)
+        }
+    }
+
+
+
+
+
+
     //#endregion
 
-    //#region  DATABASE LIST
+    //#region  LIT    DATABASE
     const [DataBaseList, SetDataBaseList] = useState<DataBaseList>({
         data: [],
         status: false,
@@ -35,10 +226,11 @@ const Settings: NextPage = () => {
     }
     //#endregion
 
+    //#region  DELETE DATABASE
     const HandlerDeleteDatabase = async (e: any) => {
         swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
-            html: "Are you sure you want to delete database named <b>" + e + "</b> ?",
+            html: "Are you sure you want to delete <br/> database named  <b>" + e + "</b> ?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
@@ -52,6 +244,9 @@ const Settings: NextPage = () => {
             }
         })
     }
+    //#endregion
+
+    //#region  EMPTY  DATABASE
     const HandlerEmptyDatabase = () => {
         swalWithBootstrapButtons.fire({
             html: "This Database Cannot Be Deleted or you do not have permission",
@@ -61,20 +256,30 @@ const Settings: NextPage = () => {
             reverseButtons: true
         })
     }
+    //#endregion
+
+    //#region  CREATE DATABASE
     const [database, setdatabasename] = useState('');
     function hasWhiteSpace(s: any) {
         return /\s/g.test(s);
     }
-
     const FormSubmit = (event: any) => {
         event.preventDefault();
-        console.log(hasWhiteSpace(database))
-        if (hasWhiteSpace(database) === false)
-        {
-            axios.post('https://localhost/api/database/create_database.php', { database: database, }).then(() => { List(); });
+        if (hasWhiteSpace(database) === false) {
+            axios.post('https://localhost/api/database/create_database.php', { database: database, }).then(({ data }) => {
+                List();
+                //console.log(data.split(" ")[11])
+                if (data.split(" ")[11] === "exists") {
+                    swalWithBootstrapButtons.fire({
+                        html: "Database named <b>" + database + " </b> already exists in the records",
+                        icon: 'warning',
+                        confirmButtonText: 'Okay, I got it!',
+                        reverseButtons: true
+                    })
+                }
+            });
         }
-        else
-        {
+        else {
             swalWithBootstrapButtons.fire({
                 html: "No Spaces Allowed in Database Names",
                 icon: 'warning',
@@ -83,9 +288,10 @@ const Settings: NextPage = () => {
                 reverseButtons: true
             })
         }
-
-
     }
+    //#endregion
+
+    //#region  TABS
     const Tabsetting = {
         active: "bg-primary text-white",
         pasive: "bg-slate-200 text-slate-700",
@@ -143,20 +349,22 @@ const Settings: NextPage = () => {
             }
         })
     }
+    //#endregion
 
-
-
-
-    //#region  AUTOSTART
+    //#region  AUTO START
     useEffect(() => {
         List();
 
     }, [])
     //#endregion
 
+    //#region CREATE TABLE
 
 
 
+
+
+    //#endregion
 
 
 
@@ -183,8 +391,23 @@ const Settings: NextPage = () => {
                         </div>
                         <div key={`tab${202290}`} id={`tab${202290}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${0 === Tabsetting.opener ? "block" : "none"}` }}>
                             <div className="grid grid-cols-12 gap-6">
+                                <div className="col-span-12 2xl:col-span-12" hidden>
+                                    <div className="alert alert-danger-soft show flex items-center mb-2" role="alert">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="alert-octagon" data-lucide="alert-octagon" className="w-6 h-6 mr-2">
+                                            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                        </svg>
 
-
+                                        Awesome alert with icon
+                                        <button type="button" className="btn-close" data-tw-dismiss="alert" aria-label="Close">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="x" data-lucide="x" className="w-4 h-4">
+                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
                                 <div className="col-span-12 2xl:col-span-12">
                                     <form onSubmit={FormSubmit} method="post">
                                         <div className="font-medium text-base">Create New Database</div>
@@ -203,11 +426,11 @@ const Settings: NextPage = () => {
                                     </form>
                                 </div>
                                 <div className="col-span-12 2xl:col-span-12">
-                                    <table className="table intro-y table-bordered md:table-fixed  table table-striped">
+                                    <table className="table intro-y table-bordered md:table-fixed table">
                                         <thead>
                                             <tr>
                                                 <th className={`whitespace-nowrap`}>Database Name</th>
-                                                <th className={`whitespace-nowrap`} style={{ width: "88px" }}>Tables</th>
+                                                <th className={`whitespace-nowrap text-center`} style={{ width: "88px" }}>Tables</th>
                                                 <th className={`whitespace-nowrap`} style={{ width: "88px" }}>Total Table</th>
                                             </tr>
                                         </thead>
@@ -215,9 +438,9 @@ const Settings: NextPage = () => {
                                             {
                                                 (DataBaseList.data || "").map((item: any) => {
                                                     return (
-                                                        <tr style={{ opacity: `${item.name === "information_schema" ? "0.4" : ""}` }}>
+                                                        <tr key={item.name} style={{ opacity: `${item.name === "information_schema" ? "0.4" : ""}`, backgroundColor: `${item.name === "information_schema" ? "#e9e9e9" : ""}`, cursor: `${item.name === "information_schema" ? "" : "pointer"}` }}>
                                                             <td>{item.name}</td>
-                                                            <td>12</td>
+                                                            <td className="text-center">12</td>
                                                             <td className="text-center" style={{ width: "110px" }}>
                                                                 <div id={item.name} onClick={(e) => { item.name === "information_schema" ? (HandlerEmptyDatabase) : (HandlerDeleteDatabase(e.currentTarget.id)) }} className={`pointer-cursor`}>
                                                                     <div className="delete flex items-center  pointer-cursor text-danger">
@@ -242,20 +465,150 @@ const Settings: NextPage = () => {
                             </div>
                         </div>
                         <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>
-                            <form onSubmit={FormSubmit} method="post">
-                                <div className="font-medium text-base">Create Database 2</div>
-                                <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+                            <div className="grid grid-cols-12 gap-6">
+                                <div className="col-span-12 2xl:col-span-12">
+                                    <div className="font-medium text-base">Create Database 2</div>
 
-                                    <div className="intro-y col-span-12 sm:col-span-6">
-                                        <label htmlFor="input-wizard-1" className="form-label">Database Name</label>
+
+
+                                    <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5 mb-5">
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Table Name" />
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y  sm:justify-end">
+                                                <button type="submit" className="btn btn-secondary w-24">Create</button>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div className="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
-                                        <button type="submit" className="btn btn-secondary w-24">Create</button>
+                                    <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5 mb-5"><br /></div>
+
+                                    <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <label>Column Name</label>
+                                                <div className="mt-2">
+                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Column Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <label>Type</label>
+                                                <div className="mt-2">
+                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control">
+                                                        {
+                                                            DataType.default.map((item) => {
+                                                                return (<option value="1">{item.name}</option>)
+                                                            })
+                                                        }
+                                                        <optgroup label="Digital">
+                                                            {DataType.digital.map((item: any) => {
+                                                                return (<option value="1">{item.name}</option>)
+                                                            })}
+                                                        </optgroup>
+                                                        <optgroup label="Date and Time">
+                                                            {DataType.dateandtime.map((item: any) => {
+                                                                return (<option value="1">{item.name}</option>)
+                                                            })}
+                                                        </optgroup>
+                                                        <optgroup label="Type Setting">
+                                                            {DataType.typesetting.map((item: any) => {
+                                                                return (<option value="1">{item.name}</option>)
+                                                            })}
+                                                        </optgroup>
+                                                        <optgroup label="Spatial">
+                                                            {DataType.spatial.map((item: any) => {
+                                                                return (<option value="1">{item.name}</option>)
+                                                            })}
+                                                        </optgroup>
+                                                        <optgroup label="Json">
+                                                            {DataType.json.map((item: any) => {
+                                                                return (<option value="1">{item.name}</option>)
+                                                            })}
+                                                        </optgroup>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <label>Length/Value</label>
+                                                <div className="mt-2">
+                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Length/Value" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <label>Default</label>
+                                                <div className="mt-2">
+                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDefault(e) }}>
+                                                        {
+                                                            Default.data.map((item) => {
+                                                                return (<option value={item.name}>{item.name}</option>)
+                                                            })
+                                                        }
+                                                    </select>
+                                                    {
+                                                        asdefined === 1 ? <input id="database" name="database" type="text" value={""} className="form-control mt-2" placeholder="To compare" /> : ""
+                                                    }
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <label>To compare</label>
+                                                <div className="mt-2">
+                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDefault(e) }}>
+                                                        {
+                                                            ToCompare.content.map((item: any) => {
+                                                                return (
+                                                                    <optgroup label={item.title}>
+                                                                        {
+                                                                            ToCompare[0].map((item: any) => {
+                                                                                return (<option value={item.name}>{item.name}</option>)
+                                                                            })
+                                                                        }
+                                                                    </optgroup>
+                                                                )
+                                                            })
+                                                        }
+
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y">
+                                                <label>Attributes</label>
+                                                <div className="mt-2">
+                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Attributes" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
 
                                 </div>
-                            </form>
+                                <div className="col-span-12 2xl:col-span-12">
+                                    <form onSubmit={FormSubmit} method="post">
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+
                         </div>
                         <div key={`tab${202292}`} id={`tab${202292}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${2 === Tabsetting.opener ? "block" : "none"}` }}>
                             <form onSubmit={FormSubmit} method="post">
@@ -271,29 +624,6 @@ const Settings: NextPage = () => {
                             </form>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
             </div >
         </>

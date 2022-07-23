@@ -3420,6 +3420,14 @@ select {
   grid-column: span 5 / span 5;
 }
 
+.col-span-11 {
+  grid-column: span 1 / span 1;
+}
+
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
@@ -19734,6 +19742,10 @@ html body {
     top: 0px;
   }
 
+  .md\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
   .md\:col-span-2 {
     grid-column: span 2 / span 2;
   }
@@ -19880,6 +19892,10 @@ html body {
 
   .lg\:col-span-9 {
     grid-column: span 9 / span 9;
+  }
+
+  .lg\:col-span-1 {
+    grid-column: span 1 / span 1;
   }
 
   .lg\:col-span-2 {
@@ -20181,6 +20197,10 @@ html body {
     grid-column: span 1 / span 1;
   }
 
+  .xl\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
   .xl\:col-span-2 {
     grid-column: span 2 / span 2;
   }
@@ -20424,6 +20444,11 @@ html body {
   .\32xl\:col-span-12 {
     grid-column: span 12 / span 12;
   }
+
+  .\32xl\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
 
   .\32xl\:col-span-2 {
     grid-column: span 2 / span 2;

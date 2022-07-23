@@ -1,0 +1,337 @@
+    {
+        "content": [
+            {
+                "id": 0,
+                "title": "armscii8"
+            },
+            {
+                "id": 1,
+                "title": "ascii"
+            },
+            {
+                "id": 2,
+                "title": "big5"
+            },
+            {
+                "id": 3,
+                "title": "binary"
+            },
+            {
+                "id": 4,
+                "title": "cp1250"
+            },
+            {
+                "id": 5,
+                "title": "cp1251"
+            },
+            {
+                "id": 6,
+                "title": "cp1256"
+            },
+            {
+                "id": 7,
+                "title": "cp1257"
+            },
+            {
+                "id": 8,
+                "title": "cp850"
+            },
+            {
+                "id": 9,
+                "title": "cp852"
+            },
+            {
+                "id": 10,
+                "title": "cp866"
+            },
+            {
+                "id": 11,
+                "title": "cp932"
+            },
+            {
+                "id": 12,
+                "title": "dec8"
+            },
+            {
+                "id": 13,
+                "title": "eucjpms"
+            },
+            {
+                "id": 14,
+                "title": "euckr"
+            },
+            {
+                "id": 15,
+                "title": "gb2312"
+            },
+            {
+                "id": 16,
+                "title": "gbk"
+            },
+            {
+                "id": 17,
+                "title": "greek"
+            }
+        ],
+        "0": [
+            {
+                "name": "armscii8_bin"
+            },
+            {
+                "name": "armcii8_general_ci"
+            },
+            {
+                "name": "armcii8_general_nopad_ci"
+            },
+            {
+                "name": "armscii8_nopad_bin"
+            }
+        ],
+        "1": [
+            {
+                "name": "ascii_bin"
+            },
+            {
+                "name": "ascii_general_ci"
+            },
+            {
+                "name": "ascii_general_nopad_ci"
+            },
+            {
+                "name": "ascii_nopad_bin"
+            }
+        ],
+        "2": [
+            {
+                "name": "big5_bin"
+            },
+            {
+                "name": "big5_chinese_ci"
+            },
+            {
+                "name": "big5_chinese_nopad_ci"
+            },
+            {
+                "name": "big5_nopad_bin"
+            }
+        ],
+        "3": [
+            {
+                "name": "binary"
+            }
+        ],
+        "4": [
+            {
+                "name": "cp1250_croatian_ci"
+            },
+            {
+                "name": "cp1250_czech_cs"
+            },
+            {
+                "name": "cp1250_general_ci"
+            },
+            {
+                "name": "cp1250_general_nopad_ci"
+            },
+            {
+                "name": "cp1250_nopad_bin"
+            },
+            {
+                "name": "cp1250_polish_ci"
+            }
+        ],
+        "5": [
+            {
+                "name": "cp1251_bin"
+            },
+            {
+                "name": "cp1251_bulgarian_ci"
+            },
+            {
+                "name": "cp1251_general_ci"
+            },
+            {
+                "name": "cp1251_general_cs"
+            },
+            {
+                "name": "cp1251_general_nopad_ci"
+            },
+            {
+                "name": "cp1251_nopad_bin"
+            },
+            {
+                "name": "cp1251_ukraynaca_ci"
+            }
+        ],
+        "6": [
+            {
+                "name": "cp1256_bin"
+            },
+            {
+                "name": "cp1256_general_ci"
+            },
+            {
+                "name": "cp1256_general_nopad_ci"
+            },
+            {
+                "name": "cp1256_nopad_bin"
+            }
+        ],
+        "7": [
+            {
+                "name": "cp1257_bin"
+            },
+            {
+                "name": "cp1257_general_ci"
+            },
+            {
+                "name": "cp1257_general_nopad_ci"
+            },
+            {
+                "name": "cp1257_lithuanian_ci"
+            },
+            {
+                "name": "cp1257_nopad_bin"
+            }
+        ],
+        "8": [
+            {
+                "name": "cp850_bin"
+            },
+            {
+                "name": "cp850_general_ci"
+            },
+            {
+                "name": "cp850_general_nopad_ci"
+            },
+            {
+                "name": "cp850_nopad_bin"
+            }
+        ],
+        "9": [
+            {
+                "name": "cp852_bin"
+            },
+            {
+                "name": "cp852_general_ci"
+            },
+            {
+                "name": "cp852_general_nopad_ci"
+            },
+            {
+                "name": "cp852_nopad_bin"
+            }
+        ],
+        "10": [
+            {
+                "name": "cp866_bin"
+            },
+            {
+                "name": "cp866_general_ci"
+            },
+            {
+                "name": "cp866_general_nopad_ci"
+            },
+            {
+                "name": "cp866_nopad_bin"
+            }
+        ],
+        "11": [
+            {
+                "name": "cp932_bin"
+            },
+            {
+                "name": "cp932_japanese_ci"
+            },
+            {
+                "name": "cp932_japanese_nopad_ci"
+            },
+            {
+                "name": "cp932_nopad_bin"
+            }
+        ],
+        "12": [
+            {
+                "name": "dec8_bin"
+            },
+            {
+                "name": "dec8_nopad_bin"
+            },
+            {
+                "name": "dec8_swedish_ci"
+            },
+            {
+                "name": "dec8_swedish_nopad_ci"
+            }
+        ],
+        "13": [
+            {
+                "name": "eucjpms_bin"
+            },
+            {
+                "name": "eucjpms_japanese_ci"
+            },
+            {
+                "name": "eucjpms_japanese_nopad_ci"
+            },
+            {
+                "name": "eucjpms_nopad_bin"
+            }
+        ],
+        "14": [
+            {
+                "name": "euckr_bin"
+            },
+            {
+                "name": "euckr_korean_ci"
+            },
+            {
+                "name": "euckr_korean_nopad_ci"
+            },
+            {
+                "name": "euckr_nopad_bin"
+            }
+        ],
+        "15": [
+            {
+                "name": "gb2312_bin"
+            },
+            {
+                "name": "gb2312_chinese_ci"
+            },
+            {
+                "name": "gb2312_chinese_nopad_ci"
+            },
+            {
+                "name": "gb2312_nopad_bin"
+            }
+        ],
+        "16": [
+            {
+                "name": "gbk_bin"
+            },
+            {
+                "name": "gbk_chinese_ci"
+            },
+            {
+                "name": "gbk_chinese_nopad_ci"
+            },
+            {
+                "name": "gbk_nopad_bin"
+            }
+        ],
+        "17": [
+            {
+                "name": "greek_bin"
+            },
+            {
+                "name": "greek_general_ci"
+            },
+            {
+                "name": "greek_general_nopad_ci"
+            },
+            {
+                "name": "greek_nopad_bin"
+            }
+        ]
+    }

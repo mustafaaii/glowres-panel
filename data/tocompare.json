@@ -70,7 +70,91 @@
             },
             {
                 "id": 17,
+                "title": "geostd8"
+            },
+            {
+                "id": 18,
                 "title": "greek"
+            },
+            {
+                "id": 19,
+                "title": "hebrew"
+            },
+            {
+                "id": 20,
+                "title": "hp8"
+            },
+            {
+                "id": 21,
+                "title": "keybcs2"
+            },
+            {
+                "id": 22,
+                "title": "koi8r"
+            },
+            {
+                "id": 23,
+                "title": "koi8u"
+            },
+            {
+                "id": 24,
+                "title": "latin1"
+            },
+            {
+                "id": 25,
+                "title": "latin2"
+            },
+            {
+                "id": 26,
+                "title": "latin5"
+            },
+            {
+                "id": 27,
+                "title": "latin7"
+            },
+            {
+                "id": 28,
+                "title": "macce"
+            },
+            {
+                "id": 29,
+                "title": "macroman"
+            },
+            {
+                "id": 30,
+                "title": "sjis"
+            },
+            {
+                "id": 31,
+                "title": "swe7"
+            },
+            {
+                "id": 32,
+                "title": "tis620"
+            },
+            {
+                "id": 33,
+                "title": "ucs2"
+            },
+            {
+                "id": 34,
+                "title": "ujis"
+            },
+            {
+                "id": 35,
+                "title": "utf16"
+            },
+            {
+                "id": 36,
+                "title": "utf16le"
+            },
+            {
+                "id": 37,
+                "title": "utf32"
+            },
+            {
+                "id": 38,
+                "title": "utf8"
             }
         ],
         "0": [
@@ -322,6 +406,23 @@
         ],
         "17": [
             {
+                "name": "geostd8_bin"
+            },
+            {
+                "name": "geostd8_bin"
+            },
+            {
+                "name": "geostd8_general_ci"
+            },
+            {
+                "name": "geostd8_general_nopad_ci"
+            },
+            {
+                "name": "geostd8_nopad_bin"
+            }
+        ],
+        "18": [
+            {
                 "name": "greek_bin"
             },
             {
@@ -331,7 +432,573 @@
                 "name": "greek_general_nopad_ci"
             },
             {
+                "name": "geostd8_general_nopad_ci"
+            },
+            {
                 "name": "greek_nopad_bin"
+            }
+        ],
+        "19": [
+            {
+                "name": "hebrew_bin"
+            },
+            {
+                "name": "hebrew_general_ci"
+            },
+            {
+                "name": "hebrew_general_nopad_ci"
+            },
+            {
+                "name": "hebrew_nopad_bin"
+            }
+        ],
+        "20": [
+            {
+                "name": "hp8_bin"
+            },
+            {
+                "name": "hp8_english_ci"
+            },
+            {
+                "name": "hp8_english_nopad_ci"
+            },
+            {
+                "name": "hp8_nopad_bin"
+            }
+        ],
+        "21": [
+            {
+                "name": "keybcs2_bin"
+            },
+            {
+                "name": "keybcs2_general_ci"
+            },
+            {
+                "name": "keybcs2_general_nopad_ci"
+            },
+            {
+                "name": "keybcs2_nopad_bin"
+            }
+        ],
+        "22": [
+            {
+                "name": "koi8r_bin"
+            },
+            {
+                "name": "koi8r_general_ci"
+            },
+            {
+                "name": "koi8r_general_nopad_ci"
+            },
+            {
+                "name": "koi8r_nopad_bin"
+            }
+        ],
+        "23": [
+            {
+                "name": "koi8u_bin"
+            },
+            {
+                "name": "koi8u_general_ci"
+            },
+            {
+                "name": "koi8u_general_nopad_ci"
+            },
+            {
+                "name": "koi8u_nopad_bin"
+            }
+        ],
+        "24": [
+            {
+                "name": "latin1_bin"
+            },
+            {
+                "name": "latin1_danish_ci"
+            },
+            {
+                "name": "latin1_general_ci"
+            },
+            {
+                "name": "latin1_general_cs"
+            },
+            {
+                "name": "latin1_german1_ci"
+            },
+            {
+                "name": "latin1_german2_ci"
+            },
+            {
+                "name": "latin1_nopad_bin"
+            },
+            {
+                "name": "latin1_spanish_ci"
+            },
+            {
+                "name": "latin1_swedish_ci"
+            },
+            {
+                "name": "latin1_swedish_nopad_ci"
+            }
+        ],
+        "25": [
+            {
+                "name": "latin2_bin"
+            },
+            {
+                "name": "latin2_croatian_ci"
+            },
+            {
+                "name": "latin2_czech_cs"
+            },
+            {
+                "name": "latin2_general_ci"
+            },
+            {
+                "name": "latin2_general_nopad_ci"
+            },
+            {
+                "name": "latin2_hungarian_ci"
+            },
+            {
+                "name": "latin2_nopad_bin"
+            }
+        ],
+        "26": [
+            {
+                "name": "latin5_bin"
+            },
+            {
+                "name": "latin5_nopad_bin"
+            },
+            {
+                "name": "latin5_turkish_ci"
+            },
+            {
+                "name": "latin5_turkish_nopad_ci"
+            }
+        ],
+        "27": [
+            {
+                "name": "latin7_bin"
+            },
+            {
+                "name": "latin7_estonian_cs"
+            },
+            {
+                "name": "latin7_general_ci"
+            },
+            {
+                "name": "latin7_general_cs"
+            },
+            {
+                "name": "latin7_general_nopad_ci"
+            },
+            {
+                "name": "latin7_nopad_bin"
+            }
+        ],
+        "28": [
+            {
+                "name": "macce_bin"
+            },
+            {
+                "name": "macce_general_ci"
+            },
+            {
+                "name": "macce_general_nopad_ci"
+            },
+            {
+                "name": "macce_nopad_bin"
+            }
+        ],
+        "29": [
+            {
+                "name": "macroman_bin"
+            },
+            {
+                "name": "macroman_general_ci"
+            },
+            {
+                "name": "macroman_general_nopad_ci"
+            },
+            {
+                "name": "macroman_nopad_bin"
+            }
+        ],
+        "30": [
+            {
+                "name": "sjis_bin"
+            },
+            {
+                "name": "sjis_japanese_ci"
+            },
+            {
+                "name": "sjis_japanese_nopad_ci"
+            },
+            {
+                "name": "sjis_nopad_bin"
+            }
+        ],
+        "31": [
+            {
+                "name": "swe7_bin"
+            },
+            {
+                "name": "swe7_nopad_bin"
+            },
+            {
+                "name": "swe7_swedish_ci"
+            },
+            {
+                "name": "swe7_swedish_nopad_ci"
+            }
+        ],
+        "32": [
+            {
+                "name": "tis620_bin"
+            },
+            {
+                "name": "tis620_nopad_bin"
+            },
+            {
+                "name": "tis620_thai_ci"
+            },
+            {
+                "name": "tis620_thai_nopad_ci"
+            }
+        ],
+        "33": [
+            {
+                "name": "ucs2_bin"
+            },
+            {
+                "name": "ucs2_croatian_ci"
+            },
+            {
+                "name": "ucs2_croatian_mysql561_ci"
+            },
+            {
+                "name": "ucs2_czech_ci"
+            },
+            {
+                "name": "ucs2_danish_ci"
+            },
+            {
+                "name": "ucs2_esperanto_ci"
+            },
+            {
+                "name": "ucs2_estonian_ci"
+            },
+            {
+                "name": "ucs2_general_ci"
+            },
+            {
+                "name": "ucs2_general_mysql500_ci"
+            },
+            {
+                "name": "ucs2_general_nopad_ci"
+            },
+            {
+                "name": "ucs2_german2_ci"
+            },
+            {
+                "name": "ucs2_hungarian_ci"
+            },
+            {
+                "name": "ucs2_icelandic_ci"
+            },
+            {
+                "name": "ucs2_latvian_ci"
+            },
+            {
+                "name": "ucs2_lithuanian_ci"
+            },
+            {
+                "name": "ucs2_myanmar_ci"
+            },
+            {
+                "name": "ucs2_nopad_bin"
+            },
+            {
+                "name": "ucs2_persian_ci"
+            },
+            {
+                "name": "ucs2_polish_ci"
+            },
+            {
+                "name": "ucs2_roman_ci"
+            },
+            {
+                "name": "ucs2_romanian_ci"
+            },
+            {
+                "name": "ucs2_sinhala_ci"
+            },
+            {
+                "name": "ucs2_slovak_ci"
+            },
+            {
+                "name": "ucs2_slovenian_ci"
+            },
+            {
+                "name": "ucs2_spanish2_ci"
+            },
+            {
+                "name": "ucs2_spanish_ci"
+            },
+            {
+                "name": "ucs2_swedish_ci"
+            },
+            {
+                "name": "ucs2_thai_520_w2"
+            },
+            {
+                "name": "ucs2_turkish_ci"
+            },
+            {
+                "name": "ucs2_unicode_520_ci"
+            },
+            {
+                "name": "ucs2_unicode_520_nopad_ci"
+            },
+            {
+                "name": "ucs2_unicode_ci"
+            },
+            {
+                "name": "ucs2_unicode_nopad_ci"
+            },
+            {
+                "name": "ucs2_vietnamese_ci"
+            }
+        ],
+        "34": [
+            {
+                "name": "ujis_bin"
+            },
+            {
+                "name": "ujis_japanese_ci"
+            },
+            {
+                "name": "ujis_japanese_nopad_ci"
+            },
+            {
+                "name": "ujis_nopad_bin"
+            }
+        ],
+        "35": [
+            {
+                "name": "utf16_bin"
+            },
+            {
+                "name": "utf16_croatian_ci"
+            },
+            {
+                "name": "utf16_croatian_mysql561_ci"
+            },
+            {
+                "name": "utf16_czech_ci"
+            },
+            {
+                "name": "utf16_danish_ci"
+            },
+            {
+                "name": "utf16_esperanto_ci"
+            },
+            {
+                "name": "utf16_estonian_ci"
+            },
+            {
+                "name": "utf16_general_ci"
+            },
+            {
+                "name": "utf16_general_nopad_ci"
+            },
+            {
+                "name": "utf16_german2_ci"
+            },
+            {
+                "name": "utf16_hungarian_ci"
+            },
+            {
+                "name": "utf16_icelandic_ci"
+            },
+            {
+                "name": "utf16_latvian_ci"
+            },
+            {
+                "name": "utf16_lithuanian_ci"
+            },
+            {
+                "name": "utf16_myanmar_ci"
+            },
+            {
+                "name": "utf16_nopad_bin"
+            },
+            {
+                "name": "utf16_persian_ci"
+            },
+            {
+                "name": "utf16_polish_ci"
+            },
+            {
+                "name": "utf16_roman_ci"
+            },
+            {
+                "name": "utf16_romanian_ci"
+            },
+            {
+                "name": "utf16_sinhala_ci"
+            },
+            {
+                "name": "utf16_slovak_ci"
+            },
+            {
+                "name": "utf16_slovenian_ci"
+            },
+            {
+                "name": "utf16_spanish2_ci"
+            },
+            {
+                "name": "utf16_spanish_ci"
+            },
+            {
+                "name": "utf16_swedish_ci"
+            },
+            {
+                "name": "utf16_thai_520_w2"
+            },
+            {
+                "name": "utf16_turkish_ci"
+            },
+            {
+                "name": "utf16_unicode_520_ci"
+            },
+            {
+                "name": "utf16_unicode_520_nopad_ci"
+            },
+            {
+                "name": "utf16_unicode_ci"
+            },
+            {
+                "name": "utf16_unicode_nopad_ci"
+            },
+            {
+                "name": "utf16_vietnamese_ci"
+            }
+        ],
+        "36": [
+            {
+                "name": "utf16le_bin"
+            },
+            {
+                "name": "utf16le_general_ci"
+            },
+            {
+                "name": "utf16le_general_nopad_ci"
+            },
+            {
+                "name": "utf16le_nopad_bin"
+            }
+        ],
+        "37": [
+            {
+                "name": "utf8_bin"
+            },
+            {
+                "name": "utf8_croatian_ci"
+            },
+            {
+                "name": "utf8_croatian_mysql561_ci"
+            },
+            {
+                "name": "utf8_danish_ci"
+            },
+            {
+                "name": "utf8_esperanto_ci"
+            },
+            {
+                "name": "utf8_estonian_ci"
+            },
+            {
+                "name": "utf8_general_ci"
+            },
+            {
+                "name": "utf8_general_mysql500_ci"
+            },
+            {
+                "name": "utf8_general_nopad_ci"
+            },
+            {
+                "name": "utf8_german2_ci"
+            },
+            {
+                "name": "utf8_hungarian_ci"
+            },
+            {
+                "name": "utf8_icelandic_ci"
+            },
+            {
+                "name": "utf8_latvian_ci"
+            },
+            {
+                "name": "utf8_lithuanian_ci"
+            },
+            {
+                "name": "utf8_myanmar_ci"
+            },
+            {
+                "name": "utf8_nopad_bin"
+            },
+            {
+                "name": "utf8_persian_ci"
+            },
+            {
+                "name": "utf8_polish_ci"
+            },
+            {
+                "name": "utf8_roman_ci"
+            },
+            {
+                "name": "utf8_romanian_ci"
+            },
+            {
+                "name": "utf8_sinhala_ci"
+            },
+            {
+                "name": "utf8_slovak_ci"
+            },
+            {
+                "name": "utf8_slovenian_ci"
+            },
+            {
+                "name": "utf8_spanish2_ci"
+            },
+            {
+                "name": "utf8_spanish_ci"
+            },
+            {
+                "name": "utf8_swedish_ci"
+            },
+            {
+                "name": "utf8_thai_520_w2"
+            },
+            {
+                "name": "utf8_turkish_ci"
+            },
+            {
+                "name": "utf8_unicode_520_ci"
+            },
+            {
+                "name": "utf8_unicode_520_nopad_ci"
+            },
+            {
+                "name": "utf8_unicode_ci"
+            },
+            {
+                "name": "utf8_unicode_nopad_ci"
+            },
+            {
+                "name": "utf8_vietnamese_ci"
             }
         ]
     }

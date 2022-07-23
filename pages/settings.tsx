@@ -568,11 +568,11 @@ const Settings: NextPage = () => {
                                                 <div className="mt-2">
                                                     <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDefault(e) }}>
                                                         {
-                                                            ToCompare.content.map((item: any) => {
+                                                            ToCompare.content.map((item: any, index: any) => {
                                                                 return (
                                                                     <optgroup label={item.title}>
                                                                         {
-                                                                            ToCompare[0].map((item: any) => {
+                                                                            ToCompare.data[0].map((item: any) => {
                                                                                 return (<option value={item.name}>{item.name}</option>)
                                                                             })
                                                                         }

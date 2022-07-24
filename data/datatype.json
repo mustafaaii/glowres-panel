@@ -1,0 +1,152 @@
+{
+    "default": [
+        {
+            "name": "VARCHAR"
+        },
+        {
+            "name": "TEXT"
+        },
+        {
+            "name": "DATE"
+        }
+    ],
+    "digital": [
+        {
+            "name": "TNIYINT"
+        },
+        {
+            "name": "SMALLINT"
+        },
+        {
+            "name": "MEDIUMINT"
+        },
+        {
+            "name": "INT"
+        },
+        {
+            "name": "BIGINT"
+        },
+        {
+            "name": "BIGINT"
+        },
+        {
+            "name": "-"
+        },
+        {
+            "name": "DECIMAL"
+        },
+        {
+            "name": "FLOAT"
+        },
+        {
+            "name": "DOUBLE"
+        },
+        {
+            "name": "REAL"
+        },
+        {
+            "name": "-"
+        },
+        {
+            "name": "BIT"
+        },
+        {
+            "name": "BOOLEN"
+        },
+        {
+            "name": "SERIAL"
+        }
+    ],
+    "dateandtime": [
+        {
+            "name": "DATE"
+        },
+        {
+            "name": "DATETIME"
+        },
+        {
+            "name": "TIMESTAMP"
+        },
+        {
+            "name": "TIME"
+        },
+        {
+            "name": "YEAR"
+        }
+    ],
+    "typesetting": [
+        {
+            "name": "CHAR"
+        },
+        {
+            "name": "VARCHAR"
+        },
+        {
+            "name": "TINYTEXT"
+        },
+        {
+            "name": "TEXT"
+        },
+        {
+            "name": "MEDIUMTEXT"
+        },
+        {
+            "name": "LONGTEXT"
+        },
+        {
+            "name": "BINARY"
+        },
+        {
+            "name": "VARBINARY"
+        },
+        {
+            "name": "TINYBLOB"
+        },
+        {
+            "name": "BLOB"
+        },
+        {
+            "name": "MEDIUMBLOB"
+        },
+        {
+            "name": "LONGBLOB"
+        },
+        {
+            "name": "ENUM"
+        },
+        {
+            "name": "SET"
+        }
+    ],
+    "spatial": [
+        {
+            "name": "GEOMETRY"
+        },
+        {
+            "name": "POINT"
+        },
+        {
+            "name": "LINESTRING"
+        },
+        {
+            "name": "POLYGON"
+        },
+        {
+            "name": "MULTIPOINT"
+        },
+        {
+            "name": "MULTILINESTRING"
+        },
+        {
+            "name": "MULTIPOLYGON"
+        },
+        {
+            "name": "GEOMETRYCOLLECTION"
+        }
+    ],
+    "json": [
+        {
+            "name": "JSON"
+        }
+    ]
+}

@@ -5,14 +5,14 @@ import Header from "../module/header/header";
 import Sidebar from "../module/sidebar/sidebar";
 import Swal from 'sweetalert2';
 import ToCompare from "../data/tocompare.json";
-
+import DataType from "../data/datatype.json";
+import CloneLimit from "../data/clonelimit.json";
+import { getEventListeners } from "events";
 type DataBaseList = {
     data: [],
     status: boolean,
     totalItems: number
 }
-
-
 
 const Settings: NextPage = () => {
 
@@ -24,217 +24,28 @@ const Settings: NextPage = () => {
         },
         buttonsStyling: false
     })
-    const DataType = {
-        default: [
-            {
-                name: "VARCHAR",
-            },
-            {
-                name: "TEXT",
-            },
-            {
-                name: "DATE",
-            },
-        ],
-        digital: [
-            {
-                name: "TNIYINT",
-            },
-            {
-                name: "SMALLINT",
-            },
-            {
-                name: "MEDIUMINT",
-            },
-            {
-                name: "INT",
-            },
-            {
-                name: "BIGINT",
-            },
-            {
-                name: "BIGINT",
-            },
-            {
-                name: "-",
-            },
-            {
-                name: "DECIMAL",
-            },
-            {
-                name: "FLOAT",
-            },
-            {
-                name: "DOUBLE",
-            },
-            {
-                name: "REAL",
-            },
-            {
-                name: "-",
-            },
-            {
-                name: "BIT",
-            },
-            {
-                name: "BOOLEN",
-            },
-            {
-                name: "SERIAL",
-            },
-        ],
-        dateandtime: [
-            {
-                name: "DATE",
-            },
-            {
-                name: "DATETIME",
-            },
-            {
-                name: "TIMESTAMP",
-            },
-            {
-                name: "TIME",
-            },
-            {
-                name: "YEAR",
-            },
-        ],
-        typesetting: [
-            {
-                name: "CHAR",
-            },
-            {
-                name: "VARCHAR",
-            },
-            {
-                name: "TINYTEXT",
-            },
-            {
-                name: "TEXT",
-            },
-            {
-                name: "MEDIUMTEXT",
-            },
-            {
-                name: "LONGTEXT",
-            },
-            {
-                name: "BINARY",
-            },
-            {
-                name: "VARBINARY",
-            },
-            {
-                name: "TINYBLOB",
-            },
-            {
-                name: "BLOB",
-            },
-            {
-                name: "MEDIUMBLOB",
-            },
-            {
-                name: "LONGBLOB",
-            },
-            {
-                name: "ENUM",
-            },
-            {
-                name: "SET",
-            },
-        ],
-        spatial: [
-            {
-                name: "GEOMETRY",
-            },
-            {
-                name: "POINT",
-            },
-            {
-                name: "LINESTRING",
-            },
-            {
-                name: "POLYGON",
-            },
-            {
-                name: "MULTIPOINT",
-            },
-            {
-                name: "MULTILINESTRING",
-            },
-            {
-                name: "MULTIPOLYGON",
-            },
-            {
-                name: "GEOMETRYCOLLECTION",
-            },
-        ],
-        json: [
-            {
-                name: "JSON",
-            },
-        ],
-    }
-    const Default = {
-        data: [
-            {
-                name: "No",
-            },
-            {
-                name: "As defined:",
-            },
-            {
-                name: "Null",
-            },
-            {
-                name: "CURRENT_TIMESTAMP",
-            },
 
-        ]
-    }
-    const Attributes = {
-        data: [
-            {
-                name: "",
-            },
-            {
-                name: "BINARY",
-            },
-            {
-                name: "UNSIGNED",
-            },
-            {
-                name: "UNSIGNED ZEROFILL",
-            },
-            {
-                name: "on update CURRENT_TIMESTAMP",
-            }
-        ]
-    }
-
-
-
-    const [asdefined, setasdefined] = useState(0);
-    const SelectDefault = (e: any) => {
-        if (e.currentTarget.value === "As defined:") {
-            setasdefined(1)
-        }
-        else {
-            setasdefined(0)
-        }
-    }
+    const [Cate, setCate] = useState([])
     const [count, setcount] = useState(0)
-
-    var i = 0;
-    const HandlerAddColumn = () => {
+    const HandlerAddColumn = (e: any) => {
         var total = count + 1;
         setcount(total)
+        const id = e.currentTarget.value;
+        setCate((column: any) => [...column, ...[{ id: id }]])
 
     }
+
+    const RemoveCategories = (e: any) => {
+        const id = e.target.getAttribute("name")
+        setCate(Cate.filter((item: any) => item.id !== id));
+        console.log(id)
+        var total = count - 1;
+        setcount(total)
+    };
+
     //#endregion
 
-    //#region  LIT    DATABASE
+    //#region  LIST   DATABASE
     const [DataBaseList, SetDataBaseList] = useState<DataBaseList>({
         data: [],
         status: false,
@@ -371,6 +182,8 @@ const Settings: NextPage = () => {
     }
     //#endregion
 
+
+
     //#region  AUTO START
     useEffect(() => {
         List();
@@ -387,6 +200,61 @@ const Settings: NextPage = () => {
     //#endregion
 
 
+    const [SelectedDataBase, SetSelectedDataBase] = useState()
+    const SelectDataBase = (e: any) => {
+        SetSelectedDataBase(e.currentTarget.value)
+    }
+
+    //table_name
+    //data
+
+
+    const [tablename, settablename] = useState("")
+    const [names, setname] = useState([])
+    const [type, settype] = useState([])
+    const [value, setvalue] = useState([])
+    const [compare, setcompare] = useState([])
+    const [autoin, setautoin] = useState([])
+
+    const setcolumnautoin = (e: any) => { }
+    const setcolumnempty = (e: any) => { }
+    const setcolumnname = (e: any) => { }
+    const setcolumntype = (e: any) => { }
+    const setcolumnvalue = (e: any) => { }
+    const setcolumncompare = (e: any) => { }
+
+
+
+    const TableCreater = () => {
+
+        (Cate || []).map((item: any) => {
+            setname((colname) => [...colname, ...[{ data_name: (document.getElementById(`columnname${item.id}`) as HTMLInputElement).value }]]);
+            settype((colname) => [...colname, ...[{ data_type: (document.getElementById(`columntype${item.id}`) as HTMLInputElement).value }]]);
+            setvalue((colname) => [...colname, ...[{ data_null: (document.getElementById(`columntype${item.id}`) as HTMLInputElement).value }]]);
+            setcompare((colname) => [...colname, ...[{ data_null: (document.getElementById(`columncomp${item.id}`) as HTMLInputElement).value }]]);
+            setautoin((colname) => [...colname, ...[{ data_null: (document.getElementById(`autoinreme${item.id}`) as HTMLInputElement).value }]]);
+        })
+        const values = [names, type, value, compare, autoin];
+        axios.post('https://localhost/api/table/create_table.php', { data: values, table_name: tablename, database: SelectedDataBase }).then(({ data }) => {
+            console.log(data)
+        });
+    }
+
+
+    const Clearelement = () => {
+        settablename("")
+        setname([])
+        settype([])
+        setvalue([])
+        setcompare([])
+        setautoin([])
+    }
+
+
+    const CreateTable = () => {
+
+    }
+
 
 
 
@@ -401,7 +269,7 @@ const Settings: NextPage = () => {
                             {
                                 Tabdata.data.map((item: any, index: number) => {
                                     return (
-                                        <button id={`but${item.id}`} key={item.id} onClick={HandlerClick} className={`intro-y w-96 h-10  btn ${index === Tabsetting.opener ? Tabsetting.active : Tabsetting.pasive}   mx-2`} style={{ width: "180px" }}>
+                                        <button id={`but${item.id}`} key={item.id} value={count} onClick={HandlerClick} className={`intro-y w-96 h-10  btn ${index === Tabsetting.opener ? Tabsetting.active : Tabsetting.pasive}   mx-2`} style={{ width: "180px" }}>
                                             {item.name}
                                             {item.icon}
                                         </button>
@@ -484,24 +352,33 @@ const Settings: NextPage = () => {
                             </div>
                         </div>
                         <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>
-                            <div className="grid grid-cols-12 gap-6">
+                            <div className="grid grid-cols-12 gap-2">
                                 <div className="col-span-12 2xl:col-span-12">
+
                                     <div className="font-medium text-base">Create Database 2</div>
-                                    <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5 mb-5">
+
+                                    <div className="grid grid-cols-12 gap-2 gap-y-5 mt-5 mb-5">
                                         <div className="col-span-12 2xl:col-span-2">
                                             <div className="intro-y">
-                                                <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Table Name" />
+                                                <input value={tablename} onChange={(e: any) => { settablename(e.target.value) }} type="text" className="form-control" placeholder="Table Name" />
                                             </div>
                                         </div>
                                         <div className="col-span-12 2xl:col-span-2">
-                                            <div className="intro-y  sm:justify-end">
-                                                <button type="submit" className="btn btn-secondary w-24">Create</button>
+                                            <div className="intro-y">
+                                                <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDataBase(e) }}>
+                                                    <option value={0} key={`emptydata0`}> Select Database</option>
+                                                    {DataBaseList.data.map((item: any) => { return (<option key={item.name} value={item.name}>{item.name}</option>) })}
+                                                </select>
                                             </div>
+
                                         </div>
-                                        <div className="col-span-12 2xl:col-span-6"></div>
+                                        <div className="col-span-12 2xl:col-span-2">
+
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-4"></div>
                                         <div className="col-span-12 2xl:col-span-2">
                                             <div className="intro-y sm:justify-end float-right">
-                                                <button type="submit" className="btn btn-secondary w-32" onClick={HandlerAddColumn}>
+                                                <button type="submit" className="btn btn-secondary w-32" value={count} onClick={e => { HandlerAddColumn(e) }}>
                                                     Add Column
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="plus" data-lucide="plus" className="lucide lucide-plus block mx-auto">
                                                         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -513,162 +390,157 @@ const Settings: NextPage = () => {
                                     </div>
 
                                     <div className="grid grid-cols-12 gap-1 gap-y-5 mt-5 mb-5"><br /></div>
-                                    <div className="flex gap-5 mt-5">
-                                        <div className="col-span-12 2xl:col-span-2">
-                                            <div className="intro-y">
-                                                <label>Column Name</label>
-                                                <div className="mt-2">
-                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Column Name" />
-                                                </div>
-                                            </div>
+                                    <form onSubmit={TableCreater} method="post">
+                                        <div className="intro-y  sm:justify-end">
+                                            <button type="submit" className="btn btn-secondary w-24" >Create</button>
                                         </div>
-                                        <div className="col-span-12 2xl:col-span-1">
-                                            <div className="intro-y">
-                                                <label>Type</label>
-                                                <div className="mt-2">
-                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control">
-                                                        {
-                                                            DataType.default.map((item) => {
-                                                                return (<option value="1">{item.name}</option>)
-                                                            })
-                                                        }
-                                                        <optgroup label="Digital">
-                                                            {DataType.digital.map((item: any) => {
-                                                                return (<option value="1">{item.name}</option>)
-                                                            })}
-                                                        </optgroup>
-                                                        <optgroup label="Date and Time">
-                                                            {DataType.dateandtime.map((item: any) => {
-                                                                return (<option value="1">{item.name}</option>)
-                                                            })}
-                                                        </optgroup>
-                                                        <optgroup label="Type Setting">
-                                                            {DataType.typesetting.map((item: any) => {
-                                                                return (<option value="1">{item.name}</option>)
-                                                            })}
-                                                        </optgroup>
-                                                        <optgroup label="Spatial">
-                                                            {DataType.spatial.map((item: any) => {
-                                                                return (<option value="1">{item.name}</option>)
-                                                            })}
-                                                        </optgroup>
-                                                        <optgroup label="Json">
-                                                            {DataType.json.map((item: any) => {
-                                                                return (<option value="1">{item.name}</option>)
-                                                            })}
-                                                        </optgroup>
+                                        {
+                                            (Cate || []).map((item: any, index: number) => {
+                                                return (
 
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-1">
-                                            <div className="intro-y">
-                                                <label>Length/Value</label>
-                                                <div className="mt-2">
-                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Length/Value" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-2">
-                                            <div className="intro-y">
-                                                <label>Default</label>
-                                                <div className="mt-2">
-                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDefault(e) }}>
-                                                        {
-                                                            Default.data.map((item) => {
-                                                                return (<option value={item.name}>{item.name}</option>)
-                                                            })
-                                                        }
-                                                    </select>
-                                                    {
-                                                        asdefined === 1 ? <input id="database" name="database" type="text" value={""} className="form-control mt-2" placeholder="To compare" /> : ""
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-2">
-                                            <div className="intro-y">
-                                                <label>To compare</label>
-                                                <div className="mt-2">
-                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDefault(e) }}>
-                                                        {
-                                                            ToCompare.content.map((item: any) => {
-                                                                return (
-                                                                    <optgroup label={item.title}>
+                                                    <div key={`keys${index}`} id={`id${index}`} className={`intro-y flex gap-5 mt-5`} >
+
+                                                        <div className="col-span-12 2xl:col-span-1">
+                                                            <div className="intro-y">
+                                                                <label className="ml-8 tooltip " delay-hide='1000' data-tip='asdasd'>AI</label>
+                                                                <div className="mt-2">
+                                                                    <div className="form-check form-switch w-full w-8">
+                                                                        <div className="text-center">
+                                                                            <input id={`autoinreme${item.id}`} onChange={(e: any) => setcolumnautoin(e.target.checked)} className="show-code  h-6 form-control ml-6 " type="checkbox" style={{ height: "38px", width: "38px" }} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-1">
+                                                            <div className="intro-y text-cen">
+                                                                <label className="ml-4">Empty</label>
+                                                                <div className="mt-2">
+                                                                    <div className="form-check form-switch w-full">
+                                                                        <div className="text-center">
+                                                                            <input id={`empty${item.id}`} onChange={(e: any) => setcolumnempty(e.target.checked)} className="show-code  h-6 form-control ml-4 " type="checkbox" style={{ height: "38px", width: "38px" }} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-3">
+                                                            <div className="intro-y">
+                                                                <label>Column Name</label>
+                                                                <div className="mt-2">
+                                                                    <input id={`columnname${item.id}`} onMouseOut={(e: any) => setcolumnname(e.target.value)} type="text" className="form-control w-82" placeholder="Column Name" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-3">
+                                                            <div className="intro-y">
+                                                                <label>Type</label>
+                                                                <div className="mt-2">
+                                                                    <select id={`columntype${item.id}`} onChange={(e: any) => { setcolumntype(e.target.value) }} className="tom-select w-full form-control">
                                                                         {
-                                                                            ToCompare.data.map((subitem) => { return (subitem.title === item.title ? (<option>{subitem.name}</option>) : "") })
+                                                                            DataType.default.map((e, i) => {
+                                                                                return (<option key={`key${item.id}props${i}`} value={e.name}>{e.name}</option>)
+                                                                            })
                                                                         }
-                                                                    </optgroup>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-1">
-                                            <div className="intro-y">
-                                                <label>Attributes</label>
-                                                <div className="mt-2">
-                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control">
-                                                        {
-                                                            Attributes.data.map((item: any) => {
-                                                                return (<option value={item.name}>{item.name}</option>)
-                                                            })
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-1">
-                                            <div className="intro-y">
-                                                <label>Empty</label>
-                                                <div className="mt-2">
-                                                    <div className="form-check form-switch w-full sm:w-auto h-6 sm:ml-auto mt-3 sm:mt-0">
-                                                        <input id="show-example-2" data-target="#input-sizing" className="show-code h-6 form-check-input mr-0 mt-3" type="checkbox" />
+                                                                        <optgroup label="Digital">
+                                                                            {DataType.digital.map((e: any, i) => {
+                                                                                return (<option key={`key${item.id}props${i}`} value={e.name}>{e.name}</option>)
+                                                                            })}
+                                                                        </optgroup>
+                                                                        <optgroup label="Date and Time">
+                                                                            {DataType.dateandtime.map((e: any, i) => {
+                                                                                return (<option key={`key${item.id}props${i}`} value={e.name}>{e.name}</option>)
+                                                                            })}
+                                                                        </optgroup>
+                                                                        <optgroup label="Type Setting">
+                                                                            {DataType.typesetting.map((e: any, i) => {
+                                                                                return (<option key={`key${item.id}props${i}`} value={e.name}>{e.name}</option>)
+                                                                            })}
+                                                                        </optgroup>
+                                                                        <optgroup label="Spatial">
+                                                                            {DataType.spatial.map((e: any, i) => {
+                                                                                return (<option key={`key${item.id}props${i}`} value={e.name}>{e.name}</option>)
+                                                                            })}
+                                                                        </optgroup>
+                                                                        <optgroup label="Json">
+                                                                            {DataType.json.map((e: any, i) => {
+                                                                                return (<option key={`key${item.id}props${i}`} value={e.name}>{e.name}</option>)
+                                                                            })}
+                                                                        </optgroup>
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-3">
+                                                            <div className="intro-y">
+                                                                <label>Length/Value</label>
+                                                                <div className="mt-2">
+                                                                    <input id={`columnvalue${item.id}`} onChange={(e: any) => { setcolumnvalue(e.target.value) }} type="text" className="form-control" placeholder="Length/Value" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-2">
+                                                            <div className="intro-y">
+                                                                <label>To compare</label>
+                                                                <div className="mt-2">
+                                                                    <select id={`columncomp${item.id}`} onChange={(e: any) => { setcolumncompare(e.target.value) }} className="tom-select w-full form-control">
+                                                                        {
+                                                                            ToCompare.content.map((item: any) => {
+                                                                                return (
+                                                                                    <optgroup key={item.title} label={item.title}>
+                                                                                        {
+                                                                                            ToCompare.data.map((subitem: any) => { return (subitem.title === item.title ? (<option key={subitem.name} value={subitem.name}>{subitem.name}</option>) : "") })
+                                                                                        }
+                                                                                    </optgroup>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-3">
+                                                            <div className="intro-y">
+                                                                <label>Description</label>
+                                                                <div className="mt-2">
+                                                                    <input id={`columndescription${item.id}`} type="text" className="form-control w-82" placeholder="Description" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-3">
+                                                            <div className="intro-y mr-6">
+                                                                <label>Op</label>
+                                                                <div className="mt-2">
+                                                                    <button name={`${item.id}`} className={`delete btn btn-danger flex items-center pointer-cursor`} onClick={(e: any) => RemoveCategories(e)}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="trash-2" data-lucide="trash-2" className="lucide lucide-trash-2 w-4 h-4 mr-1">
+                                                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                                                            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                                                                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                                        </svg>
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-1">
-                                            <div className="intro-y">
-                                                <label>Attributes</label>
-                                                <div className="mt-2">
-                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control">
-                                                        {
-                                                            Attributes.data.map((item: any) => {
-                                                                return (<option value={item.name}>{item.name}</option>)
-                                                            })
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-1">
-                                            <div className="intro-y text-center">
-                                                <label className="text-center">AI</label>
-                                                <div className="mt-2">
-                                                    <div className="form-check form-switch w-full sm:w-auto h-6 sm:ml-auto mt-3 sm:mt-0">
-                                                        <input id="show-example-2" data-target="#input-sizing" className="show-code h-6 form-check-input mr-0 mt-3" type="checkbox" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-span-12 2xl:col-span-3">
-                                            <div className="intro-y">
-                                                <label>Description</label>
-                                                <div className="mt-2">
-                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Description" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-span-12 2xl:col-span-12">
-                                    <form onSubmit={FormSubmit} method="post">
+
+                                                )
+                                            })
+                                        }
+
 
                                     </form>
+
                                 </div>
                             </div>
                         </div>

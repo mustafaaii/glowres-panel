@@ -452,10 +452,6 @@
             },
             {
                 "title": "geostd8",
-                "name": "geostd8_bin"
-            },
-            {
-                "title": "geostd8",
                 "name": "geostd8_general_ci"
             },
             {

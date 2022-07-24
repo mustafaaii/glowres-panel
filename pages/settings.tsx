@@ -11,6 +11,9 @@ type DataBaseList = {
     status: boolean,
     totalItems: number
 }
+
+
+
 const Settings: NextPage = () => {
 
     //#region  GLOBAL
@@ -21,8 +24,6 @@ const Settings: NextPage = () => {
         },
         buttonsStyling: false
     })
-
-
     const DataType = {
         default: [
             {
@@ -175,7 +176,6 @@ const Settings: NextPage = () => {
             },
         ],
     }
-
     const Default = {
         data: [
             {
@@ -193,7 +193,25 @@ const Settings: NextPage = () => {
 
         ]
     }
-
+    const Attributes = {
+        data: [
+            {
+                name: "",
+            },
+            {
+                name: "BINARY",
+            },
+            {
+                name: "UNSIGNED",
+            },
+            {
+                name: "UNSIGNED ZEROFILL",
+            },
+            {
+                name: "on update CURRENT_TIMESTAMP",
+            }
+        ]
+    }
 
 
 
@@ -206,12 +224,14 @@ const Settings: NextPage = () => {
             setasdefined(0)
         }
     }
+    const [count, setcount] = useState(0)
 
+    var i = 0;
+    const HandlerAddColumn = () => {
+        var total = count + 1;
+        setcount(total)
 
-
-
-
-
+    }
     //#endregion
 
     //#region  LIT    DATABASE
@@ -460,7 +480,6 @@ const Settings: NextPage = () => {
                                             }
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                         </div>
@@ -468,9 +487,6 @@ const Settings: NextPage = () => {
                             <div className="grid grid-cols-12 gap-6">
                                 <div className="col-span-12 2xl:col-span-12">
                                     <div className="font-medium text-base">Create Database 2</div>
-
-
-
                                     <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5 mb-5">
                                         <div className="col-span-12 2xl:col-span-2">
                                             <div className="intro-y">
@@ -482,11 +498,22 @@ const Settings: NextPage = () => {
                                                 <button type="submit" className="btn btn-secondary w-24">Create</button>
                                             </div>
                                         </div>
+                                        <div className="col-span-12 2xl:col-span-6"></div>
+                                        <div className="col-span-12 2xl:col-span-2">
+                                            <div className="intro-y sm:justify-end float-right">
+                                                <button type="submit" className="btn btn-secondary w-32" onClick={HandlerAddColumn}>
+                                                    Add Column
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="plus" data-lucide="plus" className="lucide lucide-plus block mx-auto">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5 mb-5"><br /></div>
-
-                                    <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+                                    <div className="grid grid-cols-12 gap-1 gap-y-5 mt-5 mb-5"><br /></div>
+                                    <div className="flex gap-5 mt-5">
                                         <div className="col-span-12 2xl:col-span-2">
                                             <div className="intro-y">
                                                 <label>Column Name</label>
@@ -495,7 +522,7 @@ const Settings: NextPage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-span-12 2xl:col-span-2">
+                                        <div className="col-span-12 2xl:col-span-1">
                                             <div className="intro-y">
                                                 <label>Type</label>
                                                 <div className="mt-2">
@@ -535,7 +562,7 @@ const Settings: NextPage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-span-12 2xl:col-span-2">
+                                        <div className="col-span-12 2xl:col-span-1">
                                             <div className="intro-y">
                                                 <label>Length/Value</label>
                                                 <div className="mt-2">
@@ -557,8 +584,6 @@ const Settings: NextPage = () => {
                                                     {
                                                         asdefined === 1 ? <input id="database" name="database" type="text" value={""} className="form-control mt-2" placeholder="To compare" /> : ""
                                                     }
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -568,47 +593,84 @@ const Settings: NextPage = () => {
                                                 <div className="mt-2">
                                                     <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDefault(e) }}>
                                                         {
-                                                            ToCompare.content.map((item: any, index: any) => {
+                                                            ToCompare.content.map((item: any) => {
                                                                 return (
                                                                     <optgroup label={item.title}>
                                                                         {
-                                                                            ToCompare.data[0].map((item: any) => {
-                                                                                return (<option value={item.name}>{item.name}</option>)
-                                                                            })
+                                                                            ToCompare.data.map((subitem) => { return (subitem.title === item.title ? (<option>{subitem.name}</option>) : "") })
                                                                         }
                                                                     </optgroup>
                                                                 )
                                                             })
                                                         }
-
-
-
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-span-12 2xl:col-span-2">
+                                        <div className="col-span-12 2xl:col-span-1">
                                             <div className="intro-y">
                                                 <label>Attributes</label>
                                                 <div className="mt-2">
-                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Attributes" />
+                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control">
+                                                        {
+                                                            Attributes.data.map((item: any) => {
+                                                                return (<option value={item.name}>{item.name}</option>)
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-1">
+                                            <div className="intro-y">
+                                                <label>Empty</label>
+                                                <div className="mt-2">
+                                                    <div className="form-check form-switch w-full sm:w-auto h-6 sm:ml-auto mt-3 sm:mt-0">
+                                                        <input id="show-example-2" data-target="#input-sizing" className="show-code h-6 form-check-input mr-0 mt-3" type="checkbox" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-1">
+                                            <div className="intro-y">
+                                                <label>Attributes</label>
+                                                <div className="mt-2">
+                                                    <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control">
+                                                        {
+                                                            Attributes.data.map((item: any) => {
+                                                                return (<option value={item.name}>{item.name}</option>)
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-1">
+                                            <div className="intro-y text-center">
+                                                <label className="text-center">AI</label>
+                                                <div className="mt-2">
+                                                    <div className="form-check form-switch w-full sm:w-auto h-6 sm:ml-auto mt-3 sm:mt-0">
+                                                        <input id="show-example-2" data-target="#input-sizing" className="show-code h-6 form-check-input mr-0 mt-3" type="checkbox" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-span-12 2xl:col-span-3">
+                                            <div className="intro-y">
+                                                <label>Description</label>
+                                                <div className="mt-2">
+                                                    <input id="database" name="database" type="text" value={""} className="form-control" placeholder="Description" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div className="col-span-12 2xl:col-span-12">
                                     <form onSubmit={FormSubmit} method="post">
 
                                     </form>
-
                                 </div>
-
                             </div>
-
-
                         </div>
                         <div key={`tab${202292}`} id={`tab${202292}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${2 === Tabsetting.opener ? "block" : "none"}` }}>
                             <form onSubmit={FormSubmit} method="post">

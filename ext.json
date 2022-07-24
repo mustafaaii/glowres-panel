@@ -1,0 +1,154 @@
+"content": [
+    {
+        "id": 0,
+        "title": "armscii8"
+    },
+    {
+        "id": 1,
+        "title": "ascii"
+    },
+    {
+        "id": 2,
+        "title": "big5"
+    },
+    {
+        "id": 3,
+        "title": "binary"
+    },
+    {
+        "id": 4,
+        "title": "cp1250"
+    },
+    {
+        "id": 5,
+        "title": "cp1251"
+    },
+    {
+        "id": 6,
+        "title": "cp1256"
+    },
+    {
+        "id": 7,
+        "title": "cp1257"
+    },
+    {
+        "id": 8,
+        "title": "cp850"
+    },
+    {
+        "id": 9,
+        "title": "cp852"
+    },
+    {
+        "id": 10,
+        "title": "cp866"
+    },
+    {
+        "id": 11,
+        "title": "cp932"
+    },
+    {
+        "id": 12,
+        "title": "dec8"
+    },
+    {
+        "id": 13,
+        "title": "eucjpms"
+    },
+    {
+        "id": 14,
+        "title": "euckr"
+    },
+    {
+        "id": 15,
+        "title": "gb2312"
+    },
+    {
+        "id": 16,
+        "title": "gbk"
+    },
+    {
+        "id": 17,
+        "title": "geostd8"
+    },
+    {
+        "id": 18,
+        "title": "greek"
+    },
+    {
+        "id": 19,
+        "title": "hebrew"
+    },
+    {
+        "id": 20,
+        "title": "hp8"
+    },
+    {
+        "id": 21,
+        "title": "keybcs2"
+    },
+    {
+        "id": 22,
+        "title": "koi8r"
+    },
+    {
+        "id": 23,
+        "title": "koi8u"
+    },
+    {
+        "id": 24,
+        "title": "latin1"
+    },
+    {
+        "id": 25,
+        "title": "latin2"
+    },
+    {
+        "id": 26,
+        "title": "latin5"
+    },
+    {
+        "id": 27,
+        "title": "latin7"
+    },
+    {
+        "id": 28,
+        "title": "macce"
+    },
+    {
+        "id": 29,
+        "title": "macroman"
+    },
+    {
+        "id": 30,
+        "title": "sjis"
+    },
+    {
+        "id": 31,
+        "title": "swe7"
+    },
+    {
+        "id": 32,
+        "title": "tis620"
+    },
+    {
+        "id": 33,
+        "title": "ucs2"
+    },
+    {
+        "id": 34,
+        "title": "ujis"
+    },
+    {
+        "id": 35,
+        "title": "utf16"
+    },
+    {
+        "id": 36,
+        "title": "utf16le"
+    },
+    {
+        "id": 37,
+        "title": "utf8"
+    }
+],

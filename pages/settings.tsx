@@ -6,13 +6,15 @@ import Sidebar from "../module/sidebar/sidebar";
 import Swal from 'sweetalert2';
 import ToCompare from "../data/tocompare.json";
 import DataType from "../data/datatype.json";
-import CloneLimit from "../data/clonelimit.json";
-import { getEventListeners } from "events";
 type DataBaseList = {
     data: [],
     status: boolean,
     totalItems: number
 }
+
+type ColumnData = string[];
+
+type SetCate = string[];
 
 const Settings: NextPage = () => {
 
@@ -25,7 +27,64 @@ const Settings: NextPage = () => {
         buttonsStyling: false
     })
 
-    const [Cate, setCate] = useState([])
+    const Default = {
+        data: [
+            {
+                id: 0,
+                name: "No",
+            }, {
+                id: 1,
+                name: "Null",
+            },
+        ]
+    }
+
+    const Attribute = {
+        data: [
+            {
+                id: 0,
+                name: "BINARY",
+            }, {
+                id: 1,
+                name: "UNSIGNED",
+            }, {
+                id: 2,
+                name: "UNSIGNED ZEROFILL",
+            }, {
+                id: 3,
+                name: "on update CURRENT_TIMESTAMP",
+            },
+        ]
+    }
+
+    const Index = {
+        data: [
+            {
+                id: 0,
+                name: "---",
+            }, {
+                id: 1,
+                name: "PRIMARY KEY",
+            }, {
+                id: 2,
+                name: "UNIQUE",
+            }, {
+                id: 3,
+                name: "INDEX",
+            }, {
+                id: 4,
+                name: "FULLTEXT",
+            }, {
+                id: 5,
+                name: "SPATIAL",
+            },
+        ]
+    }
+
+
+
+
+    const [Cate, setCate] = useState<SetCate>([])
     const [count, setcount] = useState(0)
     const HandlerAddColumn = (e: any) => {
         var total = count + 1;
@@ -34,8 +93,7 @@ const Settings: NextPage = () => {
         setCate((column: any) => [...column, ...[{ id: id }]])
 
     }
-
-    const RemoveCategories = (e: any) => {
+    const HandlerRemoveColumn = (e: any) => {
         const id = e.target.getAttribute("name")
         setCate(Cate.filter((item: any) => item.id !== id));
         console.log(id)
@@ -208,15 +266,27 @@ const Settings: NextPage = () => {
     //table_name
     //data
 
-
+    const result: string[] = [];
     const [tablename, settablename] = useState("")
-    const [names, setname] = useState([])
-    const [type, settype] = useState([])
-    const [value, setvalue] = useState([])
-    const [compare, setcompare] = useState([])
-    const [autoin, setautoin] = useState([])
+    const [columndata, setcolumndata] = useState<ColumnData>([])
+    const setcolumnautoin = (e: any) => {
+        (Cate || []).map((item: any) => {
 
-    const setcolumnautoin = (e: any) => { }
+            if (e.target.checked === true) {
+                if (e.target.value === item.id) {
+                    (document.getElementById(`columnindex${item.id}`) as HTMLInputElement).value = "PRIMARY KEY";
+                }
+
+            } else {
+
+                if (e.target.value === item.id) {
+                    (document.getElementById(`columnindex${item.id}`) as HTMLInputElement).value = "---";
+                }
+
+            }
+
+        })
+    }
     const setcolumnempty = (e: any) => { }
     const setcolumnname = (e: any) => { }
     const setcolumntype = (e: any) => { }
@@ -225,35 +295,35 @@ const Settings: NextPage = () => {
 
 
 
-    const TableCreater = () => {
-
+    const TableCreater = (event: any) => {
+        event.preventDefault();
         (Cate || []).map((item: any) => {
-            setname((colname) => [...colname, ...[{ data_name: (document.getElementById(`columnname${item.id}`) as HTMLInputElement).value }]]);
-            settype((colname) => [...colname, ...[{ data_type: (document.getElementById(`columntype${item.id}`) as HTMLInputElement).value }]]);
-            setvalue((colname) => [...colname, ...[{ data_null: (document.getElementById(`columntype${item.id}`) as HTMLInputElement).value }]]);
-            setcompare((colname) => [...colname, ...[{ data_null: (document.getElementById(`columncomp${item.id}`) as HTMLInputElement).value }]]);
-            setautoin((colname) => [...colname, ...[{ data_null: (document.getElementById(`autoinreme${item.id}`) as HTMLInputElement).value }]]);
+
+            setcolumndata((data: any) => [...data, ...[
+                {
+                    column_increment: (document.getElementById(`autoinreme${item.id}`) as HTMLInputElement).checked,
+                    column_empty: (document.getElementById(`columnempty${item.id}`) as HTMLInputElement).checked,
+                    column_name: (document.getElementById(`columnname${item.id}`) as HTMLInputElement).value,
+                    column_type: (document.getElementById(`columntype${item.id}`) as HTMLInputElement).value,
+                    column_value: (document.getElementById(`columnvalue${item.id}`) as HTMLInputElement).value,
+                    column_default: (document.getElementById(`columndflt${item.id}`) as HTMLInputElement).value,
+                    column_compare: (document.getElementById(`columncomp${item.id}`) as HTMLInputElement).value,
+                    column_attribute: (document.getElementById(`columnattr${item.id}`) as HTMLInputElement).value,
+                    column_index: (document.getElementById(`columnindex${item.id}`) as HTMLInputElement).value,
+
+                }
+            ]
+            ])
         })
-        const values = [names, type, value, compare, autoin];
-        axios.post('https://localhost/api/table/create_table.php', { data: values, table_name: tablename, database: SelectedDataBase }).then(({ data }) => {
+        axios.post('https://localhost/api/table/create_table.php', { data: columndata, table_name: tablename, database: SelectedDataBase }).then(({ data }) => {
             console.log(data)
+
         });
     }
 
 
-    const Clearelement = () => {
-        settablename("")
-        setname([])
-        settype([])
-        setvalue([])
-        setcompare([])
-        setautoin([])
-    }
 
 
-    const CreateTable = () => {
-
-    }
 
 
 
@@ -352,7 +422,7 @@ const Settings: NextPage = () => {
                             </div>
                         </div>
                         <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>
-                            <div className="grid grid-cols-12 gap-2">
+                            <div className="grid grid-cols-12">
                                 <div className="col-span-12 2xl:col-span-12">
 
                                     <div className="font-medium text-base">Create Database 2</div>
@@ -389,24 +459,20 @@ const Settings: NextPage = () => {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-12 gap-1 gap-y-5 mt-5 mb-5"><br /></div>
+                                    <div className="grid grid-cols-12  gap-y-5 mt-5 mb-5"><br /></div>
                                     <form onSubmit={TableCreater} method="post">
-                                        <div className="intro-y  sm:justify-end">
-                                            <button type="submit" className="btn btn-secondary w-24" >Create</button>
-                                        </div>
                                         {
                                             (Cate || []).map((item: any, index: number) => {
                                                 return (
 
                                                     <div key={`keys${index}`} id={`id${index}`} className={`intro-y flex gap-5 mt-5`} >
-
                                                         <div className="col-span-12 2xl:col-span-1">
                                                             <div className="intro-y">
-                                                                <label className="ml-8 tooltip " delay-hide='1000' data-tip='asdasd'>AI</label>
+                                                                <label className="tooltip " delay-hide='1000' data-tip='asdasd'>AI</label>
                                                                 <div className="mt-2">
                                                                     <div className="form-check form-switch w-full w-8">
                                                                         <div className="text-center">
-                                                                            <input id={`autoinreme${item.id}`} onChange={(e: any) => setcolumnautoin(e.target.checked)} className="show-code  h-6 form-control ml-6 " type="checkbox" style={{ height: "38px", width: "38px" }} />
+                                                                            <input id={`autoinreme${item.id}`} value={item.id} onChange={(e: any) => setcolumnautoin(e)} className="show-code  h-6 form-control  " type="checkbox" style={{ height: "38px", width: "38px" }} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -415,11 +481,11 @@ const Settings: NextPage = () => {
 
                                                         <div className="col-span-12 2xl:col-span-1">
                                                             <div className="intro-y text-cen">
-                                                                <label className="ml-4">Empty</label>
+                                                                <label className="">Empty</label>
                                                                 <div className="mt-2">
                                                                     <div className="form-check form-switch w-full">
                                                                         <div className="text-center">
-                                                                            <input id={`empty${item.id}`} onChange={(e: any) => setcolumnempty(e.target.checked)} className="show-code  h-6 form-control ml-4 " type="checkbox" style={{ height: "38px", width: "38px" }} />
+                                                                            <input id={`columnempty${item.id}`} onChange={(e: any) => setcolumnempty(e.target.checked)} className="show-code  h-6 form-control" type="checkbox" style={{ height: "38px", width: "38px" }} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -430,7 +496,7 @@ const Settings: NextPage = () => {
                                                             <div className="intro-y">
                                                                 <label>Column Name</label>
                                                                 <div className="mt-2">
-                                                                    <input id={`columnname${item.id}`} onMouseOut={(e: any) => setcolumnname(e.target.value)} type="text" className="form-control w-82" placeholder="Column Name" />
+                                                                    <input id={`columnname${item.id}`} onMouseOut={(e: any) => setcolumnname(e.target.value)} type="text" className="form-control w-44" placeholder="Column Name" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -484,7 +550,21 @@ const Settings: NextPage = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <div className="col-span-12 2xl:col-span-2">
+                                                            <div className="intro-y">
+                                                                <label>Default</label>
+                                                                <div className="mt-2">
+                                                                    <select id={`columndflt${item.id}`} onChange={(e: any) => { setcolumncompare(e.target.value) }} className="tom-select  w-32 form-control">
+                                                                        <option value=""></option>
+                                                                        {
+                                                                            Default.data.map((e: any) => {
+                                                                                return (<option key={e.name} value={e.name}>{e.name}</option>)
+                                                                            })
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div className="col-span-12 2xl:col-span-2">
                                                             <div className="intro-y">
                                                                 <label>To compare</label>
@@ -506,20 +586,43 @@ const Settings: NextPage = () => {
                                                             </div>
                                                         </div>
 
-                                                        <div className="col-span-12 2xl:col-span-3">
+                                                        <div className="col-span-12 2xl:col-span-2">
                                                             <div className="intro-y">
-                                                                <label>Description</label>
+                                                                <label>Attribute</label>
                                                                 <div className="mt-2">
-                                                                    <input id={`columndescription${item.id}`} type="text" className="form-control w-82" placeholder="Description" />
+                                                                    <select id={`columnattr${item.id}`} onChange={(e: any) => { setcolumncompare(e.target.value) }} className="tom-select w-full form-control">
+                                                                        <option value=""></option>
+                                                                        {
+                                                                            Attribute.data.map((e: any) => {
+                                                                                return (<option key={e.name} value={e.name}>{e.name}</option>)
+                                                                            })
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-span-12 2xl:col-span-2">
+                                                            <div className="intro-y">
+                                                                <label>Index</label>
+                                                                <div className="mt-2">
+                                                                    <select id={`columnindex${item.id}`} onChange={(e: any) => { setcolumncompare(e.target.value) }} className="tom-select w-44 form-control">
+                                                                        <option value=""></option>
+                                                                        {
+                                                                            Index.data.map((e: any) => {
+                                                                                return (<option key={e.name} value={e.name}>{e.name}</option>)
+                                                                            })
+                                                                        }
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div className="col-span-12 2xl:col-span-3">
-                                                            <div className="intro-y mr-6">
+                                                            <div className="intro-y">
                                                                 <label>Op</label>
                                                                 <div className="mt-2">
-                                                                    <button name={`${item.id}`} className={`delete btn btn-danger flex items-center pointer-cursor`} onClick={(e: any) => RemoveCategories(e)}>
+                                                                    <button name={`${item.id}`} className={`delete btn btn-danger flex  w-32 pointer-cursor`} onClick={(e: any) => HandlerRemoveColumn(e)}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="trash-2" data-lucide="trash-2" className="lucide lucide-trash-2 w-4 h-4 mr-1">
                                                                             <polyline points="3 6 5 6 21 6"></polyline>
                                                                             <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
@@ -537,6 +640,12 @@ const Settings: NextPage = () => {
                                                 )
                                             })
                                         }
+
+                                        <div className="intro-y flex gap-5 mt-5">
+                                            <div className="intro-y  sm:justify-end">
+                                                <button type="submit" className="btn btn-secondary w-24" >Create</button>
+                                            </div>
+                                        </div>
 
 
                                     </form>

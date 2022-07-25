@@ -52,6 +52,7 @@ const Settings: NextPage = () => {
     const List = async () => {
         const { data } = await axios.post('https://localhost/api/database/get_database.php', { op: "database_list", });
         SetDataBaseList(data);
+        console.log(data)
     }
     useEffect(() => {
         List();
@@ -250,19 +251,31 @@ const Settings: NextPage = () => {
     //#region CONNECT DATABASE
     const [connectstatus, setconnectstatus] = useState(0);
     const [connectalert, setconnectalert] = useState({});
-    const setservername = (e: any) => { }
+    const [inputstatus, setinputstatus] = useState(0);
+    const setservername = (e: any) => {
+
+        if (e.currentTarget.value === "localhost") {
+            (document.getElementById(`database`) as HTMLInputElement).value = "Glowres_Settings";
+            setinputstatus(1)
+        }
+        else {
+            (document.getElementById(`database`) as HTMLInputElement).value = "";
+            setinputstatus(0)
+        }
+
+    }
     const setusername = (e: any) => { }
     const setpassword = (e: any) => { }
+    const setdatabase = (e: any) => { }
+
 
     const ControlServer = async () => {
         const { data } = await axios.post('https://localhost/connect.php', { op: "connect_control", });
         if (data.status === false) {
-            console.log(data)
             setconnectstatus(0);
             setconnectalert({ title: '' + data.data + '', html: "There is an Error in the Server Connection!", status: data.status })
         }
         else {
-            ReadServer();
             setconnectstatus(1);
             setconnectalert({ title: '', html: "", status: data.status })
         }
@@ -270,53 +283,70 @@ const Settings: NextPage = () => {
 
     const ReadServer = async () => {
         const { data } = await axios.post('https://localhost/connect.php', { op: "connect_read", });
-
         if (data.status === true) {
-            (document.getElementById(`servername`) as HTMLInputElement).value = data.data[0].servername;
-            (document.getElementById(`username`) as HTMLInputElement).value = data.data[0].username;
-            (document.getElementById(`password`) as HTMLInputElement).value = data.data[0].password;
+            (document.getElementById(`servername`) as HTMLInputElement).value = data.data.servername;
+            (document.getElementById(`username`) as HTMLInputElement).value = data.data.username;
+            (document.getElementById(`password`) as HTMLInputElement).value = data.data.password;
+            (document.getElementById(`database`) as HTMLInputElement).value = data.data.database;
+            ControlServer();
         }
-
     }
+
     const ConnectServer = (event: any) => {
         event.preventDefault();
         const servername = (document.getElementById(`servername`) as HTMLInputElement).value;
         const username = (document.getElementById(`username`) as HTMLInputElement).value;
         const password = (document.getElementById(`password`) as HTMLInputElement).value;
+        const database = (document.getElementById(`database`) as HTMLInputElement).value;
+
         if (servername === "") {
-            alertcontent({ title: "", html: "Server Name Empty", icon: 'error', buttontext: "Okay, I got it !" })
+            alertcontent({ title: "", html: "Servername Empty", icon: 'error', buttontext: "Okay, I got it !" })
         }
         else {
             if (username === "") {
-                alertcontent({ title: "", html: "Server Surname Empty", icon: 'error', buttontext: "Okay, I got it !" })
+                alertcontent({ title: "", html: "Username Empty", icon: 'error', buttontext: "Okay, I got it !" })
             }
             else {
                 if (password === "" && servername !== "localhost") {
                     alertcontent({ title: "", html: "Server Password Empty <br/><br/>  In standard Local Host works, the password is left blank as standard. However, you must enter a password on the remote server connection.", icon: 'error', buttontext: "Okay, I got it !" })
                 }
                 else {
-                    axios.post('https://localhost/connect.php', {
-                        op: "connect_write",
-                        servername: servername,
-                        username: username,
-                        password: password
-                    }).then(({ data }) => {
-                        console.log(data)
-                        if (data === "Database Created") {
-                            alertcontent({ title: "", html: "Server Connection Made", icon: 'success', buttontext: "Okay, I got it !" })
-                            List();
-                        }
-                        else if (data.split(" ")[9] === "exists") {
-                            alertcontent({ title: "", html: "Connected to Server", icon: 'success', buttontext: "Okay, I got it !" })
-                            ReadServer();
-                            setconnectstatus(1);
-                            setconnectalert({ title: '', html: "", status: true })
-                        }
-                    });
+
+                    if (database === "") {
+                        alertcontent({ title: "", html: "Database Name Empty", icon: 'error', buttontext: "Okay, I got it !" })
+                    }
+                    else {
+
+                        axios.post('https://localhost/connect.php', {
+                            op: "connect_write",
+                            servername: servername,
+                            username: username,
+                            password: password,
+                            database: database,
+                        }).then(({ data }) => {
+                            if (data === "Database Created")
+                            {
+                                alertcontent({ title: "", html: "Server Connection Made", icon: 'success', buttontext: "Okay, I got it !" })
+                                List();
+                                ControlServer();
+                            }
+                            else if (data.split(" ")[9] === "exists")
+                            {
+                                alertcontent({ title: "", html: "Connected to Server", icon: 'success', buttontext: "Okay, I got it !" })
+                                ReadServer();
+                                setconnectstatus(1);
+                                setconnectalert({ title: '', html: "", status: true })
+                            }
+                        });
+                    }
+
+
+
                 }
             }
         }
     }
+
     const DissconnectServer = async (event: any) => {
         event.preventDefault();
         (document.getElementById(`servername`) as HTMLInputElement).value = "";
@@ -332,13 +362,16 @@ const Settings: NextPage = () => {
         setconnectalert({ title: data, html: "There is an Error in the Server Connection!", status: false })
 
     }
+
+    useEffect(() => { ReadServer(); ControlServer();}, [])
     //#endregion
 
+
+
+
+
     //#region SWEETALERT
-
     const alertcontent = (data: any) => {
-
-        console.log(data)
         swalWithBootstrapButtons.fire({
             title: data.title,
             html: data.html,
@@ -348,9 +381,11 @@ const Settings: NextPage = () => {
             reverseButtons: true
         });
     }
-
-
     //#endregion
+
+
+
+
 
     return (
         <>
@@ -389,7 +424,7 @@ const Settings: NextPage = () => {
                                             <div className="col-span-3 2xl:col-span-2" style={{ width: "25%" }}>
                                                 <div className="intro-y">
                                                     <label className="tooltip ">Database Name</label>
-                                                    <input id="database" name="database" type="text" value="glowres_settings" className="form-control mt-2" placeholder="Username" disabled />
+                                                    <input id="database" name="database" type="text" onChange={(e: any) => setdatabase(e)} className="form-control mt-2" placeholder="Database" disabled={inputstatus === 0 ? false : true} />
                                                 </div>
                                             </div>
                                             <div className="col-span-3 2xl:col-span-2" style={{ width: "25%" }}>
@@ -498,9 +533,9 @@ const Settings: NextPage = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                (DataBaseList.data || "").map((item: any) => {
+                                                (DataBaseList.data || null).map((item: any) => {
                                                     return (
-                                                        <tr key={item.name} style={{ opacity: `${item.name === "information_schema" ||  item.name === "glowres_settings" ? "0.4" : ""}`, backgroundColor: `${item.name === "information_schema" ||  item.name === "glowres_settings" ? "#e9e9e9" : ""}`, cursor: `${item.name === "information_schema" ||  item.name === "glowres_settings" ? "" : "pointer"}` }}>
+                                                        <tr key={item.name} style={{ opacity: `${item.name === "information_schema" || item.name === "glowres_settings" ? "0.4" : ""}`, backgroundColor: `${item.name === "information_schema" || item.name === "glowres_settings" ? "#e9e9e9" : ""}`, cursor: `${item.name === "information_schema" || item.name === "glowres_settings" ? "" : "pointer"}` }}>
                                                             <td>{item.name}</td>
                                                             <td className="text-left">
                                                                 {

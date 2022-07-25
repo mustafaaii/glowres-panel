@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "id": 0,
+            "name": "---"
+        },
+        {
+            "id": 1,
+            "name": "PRIMARY KEY"
+        },
+        {
+            "id": 2,
+            "name": "UNIQUE"
+        },
+        {
+            "id": 3,
+            "name": "INDEX"
+        },
+        {
+            "id": 4,
+            "name": "FULLTEXT"
+        },
+        {
+            "id": 5,
+            "name": "SPATIAL"
+        }
+    ]
+}

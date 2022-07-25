@@ -1,0 +1,17 @@
+{
+    "data": [
+        {
+            "id": 0,
+            "name": "BINARY"
+        }, {
+            "id": 1,
+            "name": "UNSIGNED"
+        }, {
+            "id": 2,
+            "name": "UNSIGNED ZEROFILL"
+        }, {
+            "id": 3,
+            "name": "on update CURRENT_TIMESTAMP"
+        }
+    ]
+}

@@ -13,6 +13,7 @@ import Connect from "../icon/connect";
 import Eye from "../icon/eye";
 import Eyeoff from "../icon/eyeoff";
 import Infocircle from "../icon/infocircle";
+import Disconnet from "../icon/disconnect";
 
 
 type ColumnData = string[];
@@ -32,6 +33,7 @@ const Settings: NextPage = () => {
     const [count, setcount] = useState(0)
     const [showhide, setshowhide] = useState(0)
     const [passtext, setpasstext] = useState("password")
+    const [status, setstatus] = useState(0)
 
     const HandlerAddColumn = (e: any) => {
         var total = count + 1;
@@ -46,8 +48,6 @@ const Settings: NextPage = () => {
         var total = count - 1;
         setcount(total)
     };
-
-
     const ShowHideFunc = (event: any) => {
 
         if (parseInt(event.currentTarget.value) === 0) {
@@ -62,8 +62,6 @@ const Settings: NextPage = () => {
 
 
     }
-
-
     //#endregion
 
     //#region  TABS
@@ -170,9 +168,42 @@ const Settings: NextPage = () => {
 
     //#region CONNECT DATABASE
 
+    const [server, setserver] = useState("")
+    const [database, setdatabase] = useState("")
+    const [username, setusername] = useState("")
+    const [password, setpassword] = useState("")
+    const ValueControl = (value: any) => {
+        switch (value.server) { case "": alertcontent({ title: "Server Name", html: "You Didn't Enter the Server Name", icon: '', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.database) { case "": alertcontent({ title: "Database", html: "You Didn't Enter the Database", icon: '', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.username) { case "": alertcontent({ title: "UserName", html: "You Didn't Enter the UserName", icon: '', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.password) { case "": alertcontent({ title: "Password", html: "You Didn't Enter the Password", icon: '', buttontext: "Okay, I got it !" }); return true; }
+        switch (value) { default: return false; }
+    }
+    const ConnectServer = (e: any) => {
+        e.preventDefault();
+        const value = { server: server, database: database, username: username, password: password }
+        if (ValueControl(value) === false) 
+        {
+            axios.post('https://localhost/connect.php',
+                {
+                    op: "connect",
+                    servername: "",
+                    username: "",
+                    password: "",
+                    database: ""
+                }).then((data)=>{
+                    console.log(data)
+                })
+        }
+    }
+
+
 
 
     //#endregion
+
+
+
 
     //#region SWEETALERT
     const alertcontent = (data: any) => {
@@ -186,11 +217,6 @@ const Settings: NextPage = () => {
         });
     }
     //#endregion
-
-
-
-
-
     return (
         <>
             <Header />
@@ -212,70 +238,66 @@ const Settings: NextPage = () => {
                         </div>
                         <div key={`tab${202289}`} id={`tab${202289}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${0 === Tabsetting.opener ? "block" : "none"}` }}>
 
-
-
                             <div className="grid grid-cols-12 mt-5">
 
-                                <div className="col-span-12 2xl:col-span-12">
-                                    <div className="alert alert-secondary-soft show flex items-center mb-2" role="alert">
-                                        <div className="flex">
-                                            <Infocircle class="lucide lucide-alert-circle block mx-auto mr-2" />
-                                            <div className="mt-1">Awesome alert with icon</div>
+                                <div className="col-span-12">
+                                    <div className="grid grid-cols-2 mt-5">
+
+                                        <div className="col-span-11">
+                                            <div className="alert alert-secondary-soft show flex items-center mb-2" role="alert">
+                                                <div className="flex">
+                                                    <Infocircle class="lucide lucide-alert-circle block mx-auto mr-2" />
+                                                    <div className="mt-1">Awesome alert with icon</div>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <div className="col-span-1">
+                                            <div className="intro-y text-center float-right">
+                                                <div className={`alert ${status === 0 ? "alert-danger" : "alert-success"} text-white form-control mt-1 p-2 float-right w-44`}>
+                                                    <div className="float-left">{status === 0 ? <Disconnet class="text-white" /> : <Connect class="text-white" />}</div>
+                                                    <div style={{ marginTop: "3px" }}>Connected Status</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
-                                <div className="col-span-12 2xl:col-span-12">
-                                    <form method="post">
+                                <div className="col-span-12">
+                                    <form onSubmit={ConnectServer} method="post">
 
-                                        <div className="flex gap-2 gap-y-5 mt-5 mb-5">
+                                        <div className="grid grid-cols-12 gap-2 gap-y-5 mt-5 mb-5">
 
-                                            <div className="w-72">
+                                            <div className="col-span-2">
                                                 <div className="intro-y">
-                                                    <label className="tooltip">Server Name</label>
-                                                    <input id="servername" name="database" type="text" className="form-control mt-2" placeholder="Server Name" />
-                                                </div>
-                                            </div>
-                                            <div className="w-72">
-                                                <div className="intro-y">
-                                                    <label className="tooltip ">Database Name</label>
-                                                    <input id="database" name="database" type="text" className="form-control mt-2" placeholder="Database" />
-                                                </div>
-                                            </div>
-                                            <div className="w-26"></div>
-                                            <div className="w-64">
-                                                <div className="intro-y">
-                                                    <label className="tooltip ">Username</label>
-                                                    <input id="username" name="database" type="text" className="form-control mt-2" placeholder="Username" />
-                                                </div>
-                                            </div>
-                                            <div className="w-64">
-                                                <div className="intro-y">
-                                                    <label className="tooltip ">Password</label>
-                                                    <input id="password" name="database" type={passtext} className="form-control mt-2" placeholder="Password" />
-                                                    <button type="button" value={showhide} onClick={(event: any) => { ShowHideFunc(event) }} className="float-right mx-auto mr-2 cursor-pointer" style={{ marginTop: "-29px", zIndex: "99999", position: "inherit", color: "#888", width: "20px", height: "20px" }}>
-                                                        {
-                                                            showhide === 0 ?
-                                                                <Eye class="lucide lucide-eye block mr-6" />
-                                                                :
-                                                                <Eyeoff class="lucide lucide-eye-off block mr-6" />
-                                                        }
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="col-span-1">
-                                                <div className="intro-y text-center">
-                                                    <label>I/O</label>
-                                                    <div className="alert alert-danger form-control mt-1 p-2">
-                                                        <Connect class="text-white" />
-
-                                                    </div>
+                                                    <input id="server" name="server" value={server} onChange={(e) => { setserver(e.currentTarget.value) }} type="text" className="form-control mt-2 w-54" placeholder="Server Name" />
                                                 </div>
                                             </div>
                                             <div className="col-span-2">
-                                                <div className="intro-y mt-1">
-                                                    <label className="tooltip">&nbsp;</label>
-                                                    <button className="btn btn-secondary mr-1 mb-2 w-44 float-right">Connect Database</button>
+                                                <div className="intro-y">
+                                                    <input id="database" name="database" value={database} onChange={(e) => { setdatabase(e.currentTarget.value) }} type="text" className="form-control mt-2 w-54" placeholder="Database" />
+                                                </div>
+                                            </div>
+                                            <div className="col-span-2">
+                                                <div className="intro-y">
+                                                    <input id="username" name="username" value={username} onChange={(e) => { setusername(e.currentTarget.value) }} type="text" className="form-control mt-2 w-54" placeholder="Username" />
+                                                </div>
+                                            </div>
+                                            <div className="col-span-2">
+                                                <div className="intro-y">
+                                                    <input id="password" name="password" value={password} onChange={(e) => { setpassword(e.currentTarget.value) }} type={passtext} className="form-control mt-2 w-54" placeholder="Password" />
+                                                    <button type="button" value={showhide} onClick={(event: any) => { ShowHideFunc(event) }} className="float-right cursor-pointer mr-2" style={{ marginTop: "-29px", zIndex: "99999", position: "inherit", color: "#888", width: "20px", height: "20px" }}>
+                                                        {showhide === 0 ? <Eye class="lucide lucide-eye block" /> : <Eyeoff class="lucide lucide-eye-off block" />}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="col-span-2">
+
+                                            </div>
+                                            <div className="col-span-2">
+                                                <div className="intro-y">
+                                                    <button className="btn btn-secondary mr-1 mt-1 mb-2 w-52 float-right">Connect Database</button>
                                                 </div>
                                             </div>
 
@@ -283,6 +305,7 @@ const Settings: NextPage = () => {
                                         </div>
                                     </form>
                                 </div>
+
                             </div>
                         </div>
                         <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>

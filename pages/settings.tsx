@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../module/header/header";
 import Sidebar from "../module/sidebar/sidebar";
 import Swal from 'sweetalert2';
@@ -9,8 +9,12 @@ import DataType from "../data/datatype.json";
 import Default from "../data/default.json";
 import Attribute from "../data/attribute.json";
 import Index from "../data/index.json";
-import Alert from "../element/alert";
-type DataBaseList = { data: [], status: boolean, totalItems: number }
+import Connect from "../icon/connect";
+import Eye from "../icon/eye";
+import Eyeoff from "../icon/eyeoff";
+import Infocircle from "../icon/infocircle";
+
+
 type ColumnData = string[];
 type SetCate = string[];
 const Settings: NextPage = () => {
@@ -26,6 +30,9 @@ const Settings: NextPage = () => {
 
     const [Cate, setCate] = useState<SetCate>([])
     const [count, setcount] = useState(0)
+    const [showhide, setshowhide] = useState(0)
+    const [passtext, setpasstext] = useState("password")
+
     const HandlerAddColumn = (e: any) => {
         var total = count + 1;
         setcount(total)
@@ -36,92 +43,27 @@ const Settings: NextPage = () => {
     const HandlerRemoveColumn = (e: any) => {
         const id = e.target.getAttribute("name")
         setCate(Cate.filter((item: any) => item.id !== id));
-        console.log(id)
         var total = count - 1;
         setcount(total)
     };
 
-    //#endregion
 
-    //#region  LIST   DATABASE
-    const [DataBaseList, SetDataBaseList] = useState<DataBaseList>({
-        data: [],
-        status: false,
-        totalItems: 0
-    });
-    const List = async () => {
-        const { data } = await axios.post('https://localhost/api/database/get_database.php', { op: "database_list", });
-        SetDataBaseList(data);
-        console.log(data)
-    }
-    useEffect(() => {
-        List();
-    }, [DataBaseList])
-    //#endregion
+    const ShowHideFunc = (event: any) => {
 
-    //#region  DELETE DATABASE
-    const HandlerDeleteDatabase = async (e: any) => {
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            html: "Are you sure you want to delete <br/> database named  <b>" + e + "</b> ?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.post('https://localhost/api/database/delete_database.php', { db_name: e, }).then(() => { List(); });
-                swalWithBootstrapButtons.fire('Deleted!', 'Database Deleted.', 'success')
-                ControlServer();
-            }
-        })
-    }
-    //#endregion
+        if (parseInt(event.currentTarget.value) === 0) {
 
-    //#region  EMPTY  DATABASE
-    const HandlerEmptyDatabase = () => {
-        swalWithBootstrapButtons.fire({
-            html: "This Database Cannot Be Deleted or you do not have permission",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Okay, I got it!',
-            reverseButtons: true
-        })
-    }
-    //#endregion
-
-    //#region  CREATE DATABASE
-    const [database, setdatabasename] = useState('');
-    function hasWhiteSpace(s: any) {
-        return /\s/g.test(s);
-    }
-    const FormSubmit = (event: any) => {
-        event.preventDefault();
-        if (hasWhiteSpace(database) === false) {
-            axios.post('https://localhost/api/database/create_database.php', { database: database, }).then(({ data }) => {
-                List();
-                //console.log(data.split(" ")[11])
-                if (data.split(" ")[11] === "exists") {
-                    swalWithBootstrapButtons.fire({
-                        html: "Database named <b>" + database + " </b> already exists in the records",
-                        icon: 'warning',
-                        confirmButtonText: 'Okay, I got it!',
-                        reverseButtons: true
-                    })
-                }
-            });
+            setshowhide(1)
+            setpasstext("text")
         }
         else {
-            swalWithBootstrapButtons.fire({
-                html: "No Spaces Allowed in Database Names",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Okay, I got it!',
-                reverseButtons: true
-            })
+            setshowhide(0)
+            setpasstext("password")
         }
+
+
     }
+
+
     //#endregion
 
     //#region  TABS
@@ -134,17 +76,8 @@ const Settings: NextPage = () => {
         data: [
             {
                 id: 202289,
-                name: "Connect Server",
+                name: "Connect Database",
                 icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="database" data-lucide="database" className="lucide lucide-database  float-right">
-                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-                </svg>,
-            },
-            {
-                id: 202290,
-                name: "Create Database",
-                icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="database" data-lucide="database" className="lucide lucide-database float-right">
                     <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
                     <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
@@ -154,18 +87,6 @@ const Settings: NextPage = () => {
                 id: 202291,
                 name: "Create Table",
                 icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="list" data-lucide="list" className="lucide lucide-list  float-right">
-                    <line x1="8" y1="6" x2="21" y2="6"></line>
-                    <line x1="8" y1="12" x2="21" y2="12"></line>
-                    <line x1="8" y1="18" x2="21" y2="18"></line>
-                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                </svg>,
-            },
-            {
-                id: 202292,
-                name: "Create a new table",
-                icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="list" data-lucide="list" className="lucide lucide-list block mx-auto">
                     <line x1="8" y1="6" x2="21" y2="6"></line>
                     <line x1="8" y1="12" x2="21" y2="12"></line>
                     <line x1="8" y1="18" x2="21" y2="18"></line>
@@ -224,7 +145,6 @@ const Settings: NextPage = () => {
     const setcolumntype = (e: any) => { }
     const setcolumnvalue = (e: any) => { }
     const setcolumncompare = (e: any) => { }
-
     const TableCreater = (event: any) => {
         event.preventDefault();
         (Cate || []).map((item: any) => {
@@ -243,132 +163,16 @@ const Settings: NextPage = () => {
             ]
             ])
         })
-        axios.post('https://localhost/api/table/create_table.php', { data: columndata, table_name: tablename, database: SelectedDataBase }).then(({ data }) => { console.log(data) });
+        axios.post('https://localhost/api/table/create_table.php', { data: columndata, table_name: tablename, database: SelectedDataBase }).then(({ data }) => { });
     }
 
     //#endregion
 
     //#region CONNECT DATABASE
-    const [connectstatus, setconnectstatus] = useState(0);
-    const [connectalert, setconnectalert] = useState({});
-    const [inputstatus, setinputstatus] = useState(0);
-    const setservername = (e: any) => {
-
-        if (e.currentTarget.value === "localhost") {
-            (document.getElementById(`database`) as HTMLInputElement).value = "Glowres_Settings";
-            setinputstatus(1)
-        }
-        else {
-            (document.getElementById(`database`) as HTMLInputElement).value = "";
-            setinputstatus(0)
-        }
-
-    }
-    const setusername = (e: any) => { }
-    const setpassword = (e: any) => { }
-    const setdatabase = (e: any) => { }
-
-
-    const ControlServer = async () => {
-        const { data } = await axios.post('https://localhost/connect.php', { op: "connect_control", });
-        if (data.status === false) {
-            setconnectstatus(0);
-            setconnectalert({ title: '' + data.data + '', html: "There is an Error in the Server Connection!", status: data.status })
-        }
-        else {
-            setconnectstatus(1);
-            setconnectalert({ title: '', html: "", status: data.status })
-        }
-    }
-
-    const ReadServer = async () => {
-        const { data } = await axios.post('https://localhost/connect.php', { op: "connect_read", });
-        if (data.status === true) {
-            (document.getElementById(`servername`) as HTMLInputElement).value = data.data.servername;
-            (document.getElementById(`username`) as HTMLInputElement).value = data.data.username;
-            (document.getElementById(`password`) as HTMLInputElement).value = data.data.password;
-            (document.getElementById(`database`) as HTMLInputElement).value = data.data.database;
-            ControlServer();
-        }
-    }
-
-    const ConnectServer = (event: any) => {
-        event.preventDefault();
-        const servername = (document.getElementById(`servername`) as HTMLInputElement).value;
-        const username = (document.getElementById(`username`) as HTMLInputElement).value;
-        const password = (document.getElementById(`password`) as HTMLInputElement).value;
-        const database = (document.getElementById(`database`) as HTMLInputElement).value;
-
-        if (servername === "") {
-            alertcontent({ title: "", html: "Servername Empty", icon: 'error', buttontext: "Okay, I got it !" })
-        }
-        else {
-            if (username === "") {
-                alertcontent({ title: "", html: "Username Empty", icon: 'error', buttontext: "Okay, I got it !" })
-            }
-            else {
-                if (password === "" && servername !== "localhost") {
-                    alertcontent({ title: "", html: "Server Password Empty <br/><br/>  In standard Local Host works, the password is left blank as standard. However, you must enter a password on the remote server connection.", icon: 'error', buttontext: "Okay, I got it !" })
-                }
-                else {
-
-                    if (database === "") {
-                        alertcontent({ title: "", html: "Database Name Empty", icon: 'error', buttontext: "Okay, I got it !" })
-                    }
-                    else {
-
-                        axios.post('https://localhost/connect.php', {
-                            op: "connect_write",
-                            servername: servername,
-                            username: username,
-                            password: password,
-                            database: database,
-                        }).then(({ data }) => {
-                            if (data === "Database Created")
-                            {
-                                alertcontent({ title: "", html: "Server Connection Made", icon: 'success', buttontext: "Okay, I got it !" })
-                                List();
-                                ControlServer();
-                            }
-                            else if (data.split(" ")[9] === "exists")
-                            {
-                                alertcontent({ title: "", html: "Connected to Server", icon: 'success', buttontext: "Okay, I got it !" })
-                                ReadServer();
-                                setconnectstatus(1);
-                                setconnectalert({ title: '', html: "", status: true })
-                            }
-                        });
-                    }
 
 
 
-                }
-            }
-        }
-    }
-
-    const DissconnectServer = async (event: any) => {
-        event.preventDefault();
-        (document.getElementById(`servername`) as HTMLInputElement).value = "";
-        (document.getElementById(`username`) as HTMLInputElement).value = "";
-        (document.getElementById(`password`) as HTMLInputElement).value = "";
-        const { data } = await axios.post('https://localhost/connect.php', {
-            op: "connect_write",
-            servername: "",
-            username: "",
-            password: ""
-        })
-        setconnectstatus(0);
-        setconnectalert({ title: data, html: "There is an Error in the Server Connection!", status: false })
-
-    }
-
-    useEffect(() => { ReadServer(); ControlServer();}, [])
     //#endregion
-
-
-
-
 
     //#region SWEETALERT
     const alertcontent = (data: any) => {
@@ -398,7 +202,7 @@ const Settings: NextPage = () => {
                             {
                                 Tabdata.data.map((item: any, index: number) => {
                                     return (
-                                        <button id={`but${item.id}`} key={item.id} disabled={connectstatus === 0 && item.name !== "Connect Server" ? true : false} value={count} onClick={HandlerClick} className={`intro-y w-96 h-10  btn ${index === Tabsetting.opener ? Tabsetting.active : Tabsetting.pasive}   mx-2`} style={{ width: "200px" }}>
+                                        <button id={`but${item.id}`} key={item.id} value={count} onClick={HandlerClick} className={`intro-y w-96 h-10  btn ${index === Tabsetting.opener ? Tabsetting.active : Tabsetting.pasive}   mx-2`} style={{ width: "200px" }}>
                                             <div className="mx-2">{item.name}</div>
                                             <div className="mx-2">{item.icon}</div>
                                         </button>
@@ -407,182 +211,81 @@ const Settings: NextPage = () => {
                             }
                         </div>
                         <div key={`tab${202289}`} id={`tab${202289}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${0 === Tabsetting.opener ? "block" : "none"}` }}>
-                            <div className="grid grid-cols-12">
+
+
+
+                            <div className="grid grid-cols-12 mt-5">
+
                                 <div className="col-span-12 2xl:col-span-12">
-                                    <div className="font-medium text-base">Connect Server</div>
+                                    <div className="alert alert-secondary-soft show flex items-center mb-2" role="alert">
+                                        <div className="flex">
+                                            <Infocircle class="lucide lucide-alert-circle block mx-auto mr-2" />
+                                            <div className="mt-1">Awesome alert with icon</div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div className="col-span-12 2xl:col-span-12">
+                                    <form method="post">
 
-                                    <form onSubmit={ConnectServer} method="post">
                                         <div className="flex gap-2 gap-y-5 mt-5 mb-5">
 
-                                            <div className="col-span-3 2xl:col-span-4" style={{ width: "25%" }}>
+                                            <div className="w-72">
                                                 <div className="intro-y">
                                                     <label className="tooltip">Server Name</label>
-                                                    <input id="servername" name="database" type="text" onChange={(e: any) => setservername(e)} className="form-control mt-2" placeholder="Server Name" />
+                                                    <input id="servername" name="database" type="text" className="form-control mt-2" placeholder="Server Name" />
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 2xl:col-span-2" style={{ width: "25%" }}>
+                                            <div className="w-72">
                                                 <div className="intro-y">
                                                     <label className="tooltip ">Database Name</label>
-                                                    <input id="database" name="database" type="text" onChange={(e: any) => setdatabase(e)} className="form-control mt-2" placeholder="Database" disabled={inputstatus === 0 ? false : true} />
+                                                    <input id="database" name="database" type="text" className="form-control mt-2" placeholder="Database" />
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 2xl:col-span-2" style={{ width: "25%" }}>
+                                            <div className="w-26"></div>
+                                            <div className="w-64">
                                                 <div className="intro-y">
                                                     <label className="tooltip ">Username</label>
-                                                    <input id="username" name="database" type="text" onChange={(e: any) => setusername(e)} className="form-control mt-2" placeholder="Username" />
+                                                    <input id="username" name="database" type="text" className="form-control mt-2" placeholder="Username" />
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 2xl:col-span-2" style={{ width: "25%" }}>
+                                            <div className="w-64">
                                                 <div className="intro-y">
                                                     <label className="tooltip ">Password</label>
-                                                    <input id="password" name="database" type="text" onChange={(e: any) => setpassword(e)} className="form-control mt-2" placeholder="Password" />
+                                                    <input id="password" name="database" type={passtext} className="form-control mt-2" placeholder="Password" />
+                                                    <button type="button" value={showhide} onClick={(event: any) => { ShowHideFunc(event) }} className="float-right mx-auto mr-2 cursor-pointer" style={{ marginTop: "-29px", zIndex: "99999", position: "inherit", color: "#888", width: "20px", height: "20px" }}>
+                                                        {
+                                                            showhide === 0 ?
+                                                                <Eye class="lucide lucide-eye block mr-6" />
+                                                                :
+                                                                <Eyeoff class="lucide lucide-eye-off block mr-6" />
+                                                        }
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div className="col-span-3 2xl:col-span-1" style={{ width: "5%" }}>
-                                                <div className="intro-y">
-                                                    <label className="tooltip ">&nbsp;</label>
-                                                    <div className={`a alert-dismissible  ${connectstatus === 1 ? "bg-success" : "bg-danger"} rounded-md show flex text-white items-center mb-2 mt-2`} role="alert" style={{ width: "38px", height: "38px" }}>
+                                            <div className="col-span-1">
+                                                <div className="intro-y text-center">
+                                                    <label>I/O</label>
+                                                    <div className="alert alert-danger form-control mt-1 p-2">
+                                                        <Connect class="text-white" />
 
-                                                        {
-                                                            connectstatus === 1 ?
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="28"
-                                                                    height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="wifi" data-lucide="wifi" className="lucide lucide-wifi block mx-auto ">
-                                                                    <path d="M5 13a10 10 0 0114 0"></path>
-                                                                    <path d="M8.5 16.5a5 5 0 017 0"></path>
-                                                                    <path d="M2 8.82a15 15 0 0120 0"></path>
-                                                                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
-                                                                </svg>
-                                                                :
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="wifi-off" data-lucide="wifi-off" className="lucide lucide-wifi-off block mx-auto">
-                                                                    <line x1="2" y1="2" x2="22" y2="22"></line>
-                                                                    <path d="M8.5 16.5a5 5 0 017 0"></path>
-                                                                    <path d="M2 8.82a15 15 0 014.17-2.65"></path>
-                                                                    <path d="M10.66 5c4.01-.36 8.14.9 11.34 3.76"></path>
-                                                                    <path d="M16.85 11.25a10 10 0 012.22 1.68"></path>
-                                                                    <path d="M5 13a10 10 0 015.24-2.76"></path>
-                                                                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
-                                                                </svg>
-                                                        }
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-span-12 2xl:col-span-1" style={{ width: "10%" }}>
-                                                <label className="tooltip ">&nbsp;</label>
-                                                <div className="intro-y  flex items-center justify-center sm:justify-end">
-                                                    <br />
-                                                    {
-                                                        connectstatus === 0 ?
-                                                            <button type="submit" className="btn btn-secondary mt-2 w-32">Connect Server</button>
-                                                            :
-                                                            <button type="submit" className="btn btn-danger mt-2" style={{ width: "180px" }} onClick={DissconnectServer}>Dissconnect</button>
-                                                    }
-
+                                            <div className="col-span-2">
+                                                <div className="intro-y mt-1">
+                                                    <label className="tooltip">&nbsp;</label>
+                                                    <button className="btn btn-secondary mr-1 mb-2 w-44 float-right">Connect Database</button>
                                                 </div>
                                             </div>
+
+
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div key={`tab${202290}`} id={`tab${202290}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>
-                            <div className="grid grid-cols-12 gap-6">
-                                <div className="col-span-12 2xl:col-span-12" hidden>
-                                    <div className="alert alert-danger-soft show flex items-center mb-2" role="alert">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="alert-octagon" data-lucide="alert-octagon" className="w-6 h-6 mr-2">
-                                            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
-                                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                                        </svg>
-
-                                        Awesome alert with icon
-                                        <button type="button" className="btn-close" data-tw-dismiss="alert" aria-label="Close">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="x" data-lucide="x" className="w-4 h-4">
-                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="col-span-12 2xl:col-span-12">
-                                    <form onSubmit={FormSubmit} method="post">
-                                        <div className="font-medium text-base">Create New Database</div>
-                                        <div className="grid grid-cols-12 gap-6 gap-y-5 mt-5">
-                                            <div className="col-span-12 2xl:col-span-10">
-                                                <div className="intro-y">
-                                                    <input id="database" name="database" type="text" value={database} className="form-control" onChange={e => { setdatabasename(e.target.value) }} placeholder="Database Name" />
-                                                </div>
-                                            </div>
-                                            <div className="col-span-12 2xl:col-span-2">
-                                                <div className="intro-y  flex items-center justify-center sm:justify-end">
-                                                    <button type="submit" className="btn btn-secondary w-24">Create</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="col-span-12 2xl:col-span-12">
-                                    <table className="table intro-y table-bordered md:table-fixed table">
-                                        <thead>
-                                            <tr>
-                                                <th className={`whitespace-nowrap`}>Database Name</th>
-                                                <th className={`whitespace-nowrap text-left`} style={{ width: "740px" }}>Status</th>
-                                                <th className={`whitespace-nowrap text-center`} style={{ width: "88px" }}>Tables</th>
-                                                <th className={`whitespace-nowrap`} style={{ width: "88px" }}>Total Table</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                (DataBaseList.data || null).map((item: any) => {
-                                                    return (
-                                                        <tr key={item.name} style={{ opacity: `${item.name === "information_schema" || item.name === "glowres_settings" ? "0.4" : ""}`, backgroundColor: `${item.name === "information_schema" || item.name === "glowres_settings" ? "#e9e9e9" : ""}`, cursor: `${item.name === "information_schema" || item.name === "glowres_settings" ? "" : "pointer"}` }}>
-                                                            <td>{item.name}</td>
-                                                            <td className="text-left">
-                                                                {
-                                                                    item.name === "glowres_settings" ? "This database is mandatory in my institution. It cannot be deleted and cannot be changed." : ""
-                                                                }
-                                                                {
-                                                                    item.name === "information_schema" ? "This database is mandatory in my institution. It cannot be deleted and cannot be changed." : ""
-                                                                }
-                                                            </td>
-                                                            <td className="text-center">12</td>
-                                                            <td className="text-center" style={{ width: "210px" }}>
-                                                                <div className="flex lg:justify-center items-center">
-
-                                                                    <div id={item.name} onClick={(e) => { item.name === "information_schema" ? (HandlerEmptyDatabase) : (HandlerDeleteDatabase(e.currentTarget.id)) }} className={`pointer-cursor edit flex items-center mr-3`}>
-                                                                        <div className="edit flex items-center mr-3  pointer-cursor text-primary">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="check-square" data-lucide="check-square" className="lucide lucide-check-square w-4 h-4 mr-1">
-                                                                                <polyline points="9 11 12 14 22 4"></polyline>
-                                                                                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                                                                            </svg>
-                                                                            Edit
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div id={item.name} onClick={(e) => { item.name === "information_schema" ? (HandlerEmptyDatabase) : (HandlerDeleteDatabase(e.currentTarget.id)) }} className={`pointer-cursor edit flex items-center mr-3`}>
-                                                                        <div className="delete flex items-center  pointer-cursor text-danger">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" icon-name="trash-2" data-lucide="trash-2" className="lucide lucide-trash-2 w-4 h-4 mr-1">
-                                                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
-                                                                                <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                                                <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                                            </svg>
-                                                                            Delete
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                })
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${2 === Tabsetting.opener ? "block" : "none"}` }}>
+                        <div key={`tab${202291}`} id={`tab${202291}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${1 === Tabsetting.opener ? "block" : "none"}` }}>
                             <div className="grid grid-cols-12">
                                 <div className="col-span-12 2xl:col-span-12">
 
@@ -596,10 +299,7 @@ const Settings: NextPage = () => {
                                         </div>
                                         <div className="col-span-12 2xl:col-span-2">
                                             <div className="intro-y">
-                                                <select data-placeholder="Select your favorite actors" className="tom-select w-full form-control" onChange={e => { SelectDataBase(e) }}>
-                                                    <option value={0} key={`emptydata0`}> Select Database</option>
-                                                    {DataBaseList.data.map((item: any) => { return (<option key={item.name} value={item.name}>{item.name}</option>) })}
-                                                </select>
+                                                <input onChange={(e: any) => { settablename(e.target.value) }} type="text" className="form-control" placeholder="Database Name" disabled />
                                             </div>
 
                                         </div>
@@ -620,7 +320,7 @@ const Settings: NextPage = () => {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-12  gap-y-5 mt-5 mb-5"><br /></div>
+
                                     <form onSubmit={TableCreater} method="post">
                                         {
                                             (Cate || []).map((item: any, index: number) => {
@@ -814,22 +514,8 @@ const Settings: NextPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div key={`tab${202292}`} id={`tab${202292}`} className={`px-5 sm:px-20 mt-10 pt-10  border-slate-200/60 dark:border-darkmode-400`} style={{ display: `${3 === Tabsetting.opener ? "block" : "none"}` }}>
-                            <form onSubmit={FormSubmit} method="post">
-                                <div className="font-medium text-base">Create Database 3</div>
-                                <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
-                                    <div className="intro-y col-span-12 sm:col-span-6">
-                                        <label htmlFor="input-wizard-1" className="form-label">Database Name</label>
-                                    </div>
-                                    <div className="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5">
-                                        <button type="submit" className="btn btn-secondary w-24">Create</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
-                <Alert data={connectalert} />
             </div >
         </>
     )

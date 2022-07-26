@@ -12,12 +12,16 @@ import Index from "../data/index.json";
 import Connect from "../icon/connect";
 import Eye from "../icon/eye";
 import Eyeoff from "../icon/eyeoff";
-import Infocircle from "../icon/infocircle";
 import Disconnet from "../icon/disconnect";
+import Infocircle from "../icon/infocircle";
+import Dissmiss from "../icon/dissmis";
+import Puffloading from "../icon/puffloading";
 
 
 type ColumnData = string[];
 type SetCate = string[];
+
+
 const Settings: NextPage = () => {
 
     //#region  GLOBAL
@@ -168,37 +172,77 @@ const Settings: NextPage = () => {
 
     //#region CONNECT DATABASE
 
-    const [server, setserver] = useState("")
-    const [database, setdatabase] = useState("")
-    const [username, setusername] = useState("")
-    const [password, setpassword] = useState("")
-    const [error, seterror] = useState("")
-    const ValueControl = (value: any) => {
-        switch (value.server) { case "": alertcontent({ title: "Server Name", html: "You Didn't Enter the Server Name", icon: '', buttontext: "Okay, I got it !" }); return true; }
-        switch (value.database) { case "": alertcontent({ title: "Database", html: "You Didn't Enter the Database", icon: '', buttontext: "Okay, I got it !" }); return true; }
-        switch (value.username) { case "": alertcontent({ title: "UserName", html: "You Didn't Enter the UserName", icon: '', buttontext: "Okay, I got it !" }); return true; }
-        switch (value.password) { case "": alertcontent({ title: "Password", html: "You Didn't Enter the Password", icon: '', buttontext: "Okay, I got it !" }); return true; }
-        switch (value) { default: return false; }
-    }
+    const [error, seterror] = useState(0)
+    const [loader, setloader] = useState(0)
+    const [errortext, seterrortext] = useState("")
+    const [errorclass, seterrorclass] = useState("")
 
+
+    const ConnectControl = () => {
+
+        const value = {
+            server: (document.getElementById(`server`) as HTMLInputElement).value,
+            username: (document.getElementById(`database`) as HTMLInputElement).value,
+            password: (document.getElementById(`username`) as HTMLInputElement).value,
+            database: (document.getElementById(`password`) as HTMLInputElement).value
+        }
+
+        switch (value.server) { case "": alertcontent({ title: "", html: "1", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.username) { case "": alertcontent({ title: "", html: "2", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.password) { case "": alertcontent({ title: "", html: "3", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.database) { case "": alertcontent({ title: "", html: "4", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value) { default: return false; }
+
+    }
     const ConnectServer = async (e: any) => {
         e.preventDefault();
-        const value = { server: server, database: database, username: username, password: password }
-        if (ValueControl(value) === false) {
-            const { data } = await axios.post('https://localhost/connect.php',
-                {
-                    op: "connect",
-                    servername: value.server,
-                    username: value.username,
-                    password: value.password,
-                    database: value.database
-                })
-            seterror(data.data)
+        if (ConnectControl() === false) {
+
+            setloader(1);
+            const { data } = await axios.post('https://localhost/connect.php', {
+                op: "control",
+                servername: (document.getElementById(`server`) as HTMLInputElement).value,
+                username: (document.getElementById(`username`) as HTMLInputElement).value,
+                password: (document.getElementById(`password`) as HTMLInputElement).value,
+                database: (document.getElementById(`database`) as HTMLInputElement).value
+            })
+
+            if (data.status === false) {
+                setTimeout(() => {
+                    setloader(0);
+                    seterror(1)
+                    seterrorclass("danger")
+                    seterrortext(data.data)
+                }, 2000)
+            }
+            else {
+                setTimeout(() => {
+                    seterror(0)
+                    seterrorclass("success")
+                    seterrortext(data.data)
+                    setloader(0);
+                }, 2000)
+            }
+
+
         }
+
+
     }
 
+    const ConnectRead = async () => {
+        const { data } = await axios.post('https://localhost/connect.php', { op: "read" })
+        if (data.status === true) {
+            (document.getElementById(`server`) as HTMLInputElement).value = data.data.servername;
+            (document.getElementById(`username`) as HTMLInputElement).value = data.data.username;
+            (document.getElementById(`password`) as HTMLInputElement).value = data.data.password;
+            (document.getElementById(`database`) as HTMLInputElement).value = data.data.database;
+            seterror(0)
+            seterrorclass("success")
+        }
 
-
+    }
+    useEffect(() => { ConnectRead(); }, [])
 
     //#endregion
 
@@ -242,26 +286,27 @@ const Settings: NextPage = () => {
 
                                 <div className="col-span-12">
                                     <div className="grid grid-cols-4 mt-5">
-
                                         <div className="col-span-3">
-                                            <div className={`alert alert-danger-soft ${error.length > 1 ? "show" : ""} mb-2`} style={{ height: "42px" }}>
-                                                <div className="grid grid-cols-6">
-                                                    <div className="col-span-4 float-left">
+
+                                            <div className={`alert ${errorclass === "danger" ? "alert-danger-soft" : "alert-success-soft"} intro-y  p-2 mx-auto transition-all ease-in-out duration-400 ${error === 0 ? "hidden" : "show"} `} style={{ height: "42px" }}>
+                                                <div className="flex">
+                                                    <div className="w-10">
                                                         <Infocircle class="lucide lucide-alert-circle float-left block mx-auto mr-2" />
                                                     </div>
-                                                    <div className="col-span-1">
-                                                        {error}
+                                                    <div className="w-full">
+                                                        <div className="mt-1">{errortext}</div>
                                                     </div>
-                                                    <div className="col-span-1">
-                                                        X
+                                                    <div className="w-10 cursor-pointer">
+
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div className="col-span-1">
                                             <div className="intro-y text-center float-right">
-                                                <div className={`alert ${status === 0 ? "alert-danger" : "alert-success"} text-white form-control mt-1 p-2 float-right w-44`}>
-                                                    <div className="float-left">{status === 0 ? <Disconnet class="text-white" /> : <Connect class="text-white" />}</div>
+                                                <div className={`alert ${errorclass === "success" ? "alert-success" : "alert-danger"} text-white form-control mt-1 p-2 float-right w-44`}>
+                                                    <div className="float-left">{errorclass === "danger" ? <Disconnet class="text-white" /> : <Connect class="text-white" />}</div>
                                                     <div style={{ marginTop: "3px" }}>Connected Status</div>
                                                 </div>
                                             </div>
@@ -278,25 +323,25 @@ const Settings: NextPage = () => {
                                             <div className="col-span-3">
                                                 <div className="intro-y">
                                                     <label htmlFor="vertical-form-2" className="form-label">Server Name</label>
-                                                    <input id="server" name="server" value={server} onChange={(e) => { setserver(e.currentTarget.value) }} type="text" className="form-control mt-2 w-54" placeholder="Server Name" />
+                                                    <input id="server" name="server" type="text" className="form-control mt-2 w-54" placeholder="Server Name" />
                                                 </div>
                                             </div>
                                             <div className="col-span-3">
                                                 <div className="intro-y">
                                                     <label htmlFor="vertical-form-2" className="form-label">Database</label>
-                                                    <input id="database" name="database" value={database} onChange={(e) => { setdatabase(e.currentTarget.value) }} type="text" className="form-control mt-2 w-54" placeholder="Database" />
+                                                    <input id="database" name="database" type="text" className="form-control mt-2 w-54" placeholder="Database" />
                                                 </div>
                                             </div>
                                             <div className="col-span-3">
                                                 <div className="intro-y">
                                                     <label htmlFor="vertical-form-2" className="form-label">Username</label>
-                                                    <input id="username" name="username" value={username} onChange={(e) => { setusername(e.currentTarget.value) }} type="text" className="form-control mt-2 w-54" placeholder="Username" />
+                                                    <input id="username" name="username" type="text" className="form-control mt-2 w-54" placeholder="Username" />
                                                 </div>
                                             </div>
                                             <div className="col-span-3">
                                                 <div className="intro-y">
                                                     <label htmlFor="vertical-form-2" className="form-label">Password</label>
-                                                    <input id="password" name="password" value={password} onChange={(e) => { setpassword(e.currentTarget.value) }} type={passtext} className="form-control mt-2 w-54" placeholder="Password" />
+                                                    <input id="password" name="password" type={passtext} className="form-control mt-2 w-54" placeholder="Password" />
                                                     <button type="button" value={showhide} onClick={(event: any) => { ShowHideFunc(event) }} className="float-right cursor-pointer mr-2" style={{ marginTop: "-29px", zIndex: "99999", position: "inherit", color: "#888", width: "20px", height: "20px" }}>
                                                         {showhide === 0 ? <Eye class="lucide lucide-eye block" /> : <Eyeoff class="lucide lucide-eye-off block" />}
                                                     </button>
@@ -305,7 +350,10 @@ const Settings: NextPage = () => {
 
                                             <div className="col-span-12">
                                                 <div className="intro-y">
-                                                    <button className="btn btn-secondary mr-1 mt-1 mb-2 w-44 float-right">Connect Database</button>
+                                                    <button className="btn btn-secondary mr-1 mt-1 mb-2 w-44 float-right">
+                                                        {loader === 1 ? <Puffloading /> : ""}
+                                                        Connect Database
+                                                    </button>
                                                 </div>
                                             </div>
 

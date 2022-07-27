@@ -156,3 +156,152 @@ const Disconnect = async (event: any) => {
 
 
 //#endregion
+
+
+
+//#region CREATESSS TABLE
+
+const [columndata, setcolumndata] = useState<ColumnData>([])
+const [attribute, setattribute] = useState(0)
+const [maxvalue, setmaxvalue] = useState(Number)
+const setcolumnautoin = (e: any) => {
+    (Cate || []).map((item: any) => {
+
+        if (e.target.checked === true) {
+            if (e.target.value === item.id) {
+                (document.getElementById(`index${item.id}`) as HTMLInputElement).value = "PRIMARY KEY";
+                (document.getElementById(`compare${item.id}`) as HTMLInputElement).disabled = true;
+                setattribute(1)
+            }
+
+        } else {
+
+            if (e.target.value === item.id) {
+                (document.getElementById(`index${item.id}`) as HTMLInputElement).value = "";
+                (document.getElementById(`compare${item.id}`) as HTMLInputElement).disabled = false;
+                setattribute(0)
+            }
+
+        }
+
+    })
+}
+const SelectType = (e: any) => {
+    (Cate || []).map((item: any) => {
+        const type = (document.getElementById(`type${item.id}`) as HTMLInputElement);
+        const value = (document.getElementById(`value${item.id}`) as HTMLInputElement);
+
+        type.value === "DATE" ||
+            type.value === "TEXT" ||
+            type.value === "TIME" ||
+            type.value === "YEAR" ||
+            type.value === "DATETIME" ||
+            type.value === "TIMESTAMP" ||
+            type.value === "JSON" ||
+            type.value === "GEOMETRY" ||
+            type.value === "POINT" ||
+            type.value === "MEDIUMTEXT" ||
+            type.value === "TINYTEXT" ||
+            type.value === "LONGTEXT"
+            ?
+            value.disabled = true
+            :
+            value.disabled = false;
+    })
+}
+const typemaxlenght = (e: any) => {
+    (Cate || []).map((item: any) => {
+
+
+    })
+}
+useEffect(() => { ColumnCreater() }, [columndata]);
+
+
+
+const TableElementControl = () => {
+    (Cate || []).map((item: any) => {
+        const type = (document.getElementById(`type${item.id}`) as HTMLInputElement);
+        const value = (document.getElementById(`value${item.id}`) as HTMLInputElement);
+        if (type.value === "VARCHAR" || value.value === "") {
+            alertcontent({ title: "", html: "1", icon: 'error', buttontext: "Okay, I got it !" })
+        }
+    })
+}
+
+const TableCreater = (event: any) => {
+    event.preventDefault();
+
+    (Cate || []).map((item: any) => {
+
+        const val1 = (document.getElementById(`name${item.id}`) as HTMLInputElement).value;
+        const val2 = (document.getElementById(`type${item.id}`) as HTMLInputElement).value;
+        const val3 = (document.getElementById(`value${item.id}`) as HTMLInputElement).value;
+        const val4 = (document.getElementById(`default${item.id}`) as HTMLInputElement).value;
+        const val5 = (document.getElementById(`increment${item.id}`) as HTMLInputElement).checked;
+        const val6 = (document.getElementById(`index${item.id}`) as HTMLInputElement).value;
+        const val7 = (document.getElementById(`compare${item.id}`) as HTMLInputElement).value;
+        const val8 = (document.getElementById(`attributes${item.id}`) as HTMLInputElement).value;
+        const val9 = (document.getElementById(`empty${item.id}`) as HTMLInputElement).checked;
+        var defval = "";
+        if (val4 === "No") {
+            defval = "NOT NULL"
+        }
+        else {
+            defval = val4;
+        }
+        var incval = "";
+        if (val5 === true) {
+            incval = "AUTO_INCREMENT"
+        }
+        else {
+            incval = "";
+        }
+
+        var carval = "";
+        var comval = "";
+        if (val7 === ",") {
+            carval = "";
+            comval = "";
+        }
+        else {
+            carval = "CHARACTER SET " + val7.split(",")[0];
+            comval = " COLLATE " + val7.split(",")[1];
+        }
+        var value = [{
+            name: val1,
+            type: val2,
+            value: val3,
+            defaults: defval,
+            increment: incval,
+            index: val6,
+            compare: comval,
+            caracterset: carval,
+            attributes: val8,
+            empty: val9,
+            id: item.id,
+        }]
+        if (columndata.length === 0) {
+            setcolumndata((data: any) => [...data, ...value])
+        }
+        else {
+            columndata.map((i: any) => {
+                if (columndata.filter((i: any) => i.id !== item.id)[0] === columndata[0]) {
+                    setcolumndata((data: any) => [...data, ...value])
+                }
+            })
+        }
+    })
+    ColumnCreater();
+}
+
+const ColumnCreater = () => {
+    if (columndata.length !== 0) {
+        axios.post('https://localhost/api/table/create_table.php', { data: columndata, tablename: tablename }).then(({ data }) => {
+            console.log(data)
+            columndata.length = 0;
+            setCate(Cate.filter(item => item));
+        });
+    }
+}
+//#endregion

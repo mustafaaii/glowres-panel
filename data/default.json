@@ -6,7 +6,11 @@
         },
         {
             "id": 1,
-            "name": "Null"
+            "name": "NULL"
+        },
+        {
+            "id": 1,
+            "name": "CURRENT_TIMESTAMP"
         }
     ]
 }

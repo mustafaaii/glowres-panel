@@ -154,7 +154,7 @@
             },
             {
                 "id": 37,
-                "title": "utf8"
+                "title": "utf8mb4"
             }
         ],
         "data": [
@@ -1051,136 +1051,136 @@
                 "name": "utf16le_nopad_bin"
             },
             {
-                "title": "utf8",
-                "name": "utf8_bin"
+                "title": "utf8mb4",
+                "name": "utf8mb4_bin"
             },
             {
-                "title": "utf8",
-                "name": "utf8_croatian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_croatian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_croatian_mysql561_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_croatian_mysql561_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_danish_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_danish_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_esperanto_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_esperanto_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_estonian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_estonian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_general_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_general_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_general_mysql500_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_general_mysql500_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_general_nopad_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_general_nopad_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_german2_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_german2_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_hungarian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_hungarian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_icelandic_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_icelandic_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_latvian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_latvian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_lithuanian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_lithuanian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_myanmar_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_myanmar_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_nopad_bin"
+                "title": "utf8mb4",
+                "name": "utf8mb4_nopad_bin"
             },
             {
-                "title": "utf8",
-                "name": "utf8_persian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_persian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_polish_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_polish_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_roman_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_roman_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_romanian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_romanian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_sinhala_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_sinhala_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_slovak_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_slovak_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_slovenian_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_slovenian_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_spanish2_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_spanish2_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_spanish_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_spanish_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_swedish_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_swedish_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_thai_520_w2"
+                "title": "utf8mb4",
+                "name": "utf8mb4_thai_520_w2"
             },
             {
-                "title": "utf8",
-                "name": "utf8_turkish_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_turkish_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_unicode_520_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_unicode_520_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_unicode_520_nopad_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_unicode_520_nopad_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_unicode_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_unicode_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_unicode_nopad_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_unicode_nopad_ci"
             },
             {
-                "title": "utf8",
-                "name": "utf8_vietnamese_ci"
+                "title": "utf8mb4",
+                "name": "utf8mb4_vietnamese_ci"
             }
         ]
     }

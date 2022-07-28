@@ -8,7 +8,7 @@
 //NEXT IMPORT
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import AlertElement from "../../../element/alert";
 //ICON IMPORT
 import Connect from "../../../icon/connect";
 import Disconnet from "../../../icon/disconnect";
@@ -18,15 +18,7 @@ import Infocircle from "../../../icon/infocircle";
 import Puffloading from "../../../icon/puffloading";
 
 
-export default function ConnectDatabase()
-{
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-success text-white mr-2 ml-2 rounded-none',
-            cancelButton: 'btn btn-danger text-white mr-2 ml-2 rounded-none'
-        },
-        buttonsStyling: false
-    })
+export default function ConnectDatabase() {
 
     const [showhide, setshowhide] = useState(0)
     const [passtext, setpasstext] = useState("password")
@@ -56,9 +48,9 @@ export default function ConnectDatabase()
             database: (document.getElementById(`database`) as HTMLInputElement).value
         }
 
-        switch (value.server)   { case "": alertcontent({ title: "", html: "1", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
-        switch (value.username) { case "": alertcontent({ title: "", html: "2", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
-        switch (value.database) { case "": alertcontent({ title: "", html: "4", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.server) { case "": AlertElement({ title: "", html: "1", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.username) { case "": AlertElement({ title: "", html: "2", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
+        switch (value.database) { case "": AlertElement({ title: "", html: "4", icon: 'error', buttontext: "Okay, I got it !" }); return true; }
         switch (value) { default: return false; }
 
     }
@@ -111,20 +103,13 @@ export default function ConnectDatabase()
     useEffect(() => { ConnectRead(); }, [])
 
 
-    const alertcontent = (data: any) => {
-        swalWithBootstrapButtons.fire({
-            title: data.title,
-            html: data.html,
-            icon: data.icon,
-            showCancelButton: false,
-            confirmButtonText: data.buttontext,
-            reverseButtons: true
-        });
-    }
+
 
     return (
         <>
+
             <div className="grid grid-cols-12 mt-5">
+
                 <div className="col-span-12">
                     <div className="grid grid-cols-4 mt-5">
                         <div className="col-span-3">
@@ -192,8 +177,6 @@ export default function ConnectDatabase()
                                     </button>
                                 </div>
                             </div>
-
-
                         </div>
                     </form>
                 </div>

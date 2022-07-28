@@ -98,6 +98,7 @@ export default function CreateTable() {
                                 return (
 
                                     <div key={`keys${index}`} id={`id${index}`} className={`intro-y flex gap-5 mt-5`} >
+
                                         <div className="col-span-12 2xl:col-span-1">
                                             <div className="intro-y">
                                                 <label className="tooltip " delay-hide='1000' data-tip='asdasd'>AI</label>
@@ -250,7 +251,6 @@ export default function CreateTable() {
                                                 </div>
                                             </div>
                                         </div>
-
 
                                         <div className="col-span-12 2xl:col-span-3">
                                             <div className="intro-y">
